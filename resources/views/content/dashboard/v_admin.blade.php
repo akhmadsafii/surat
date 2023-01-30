@@ -1,32 +1,135 @@
 @extends('layout.admin.v_main')
 @section('content')
-    <div class="m-subheader ">
-        <div class="d-flex align-items-center">
-            <div class="mr-auto">
-                <h3 class="m-subheader__title m-subheader__title--separator">Inner Page</h3>
-                <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
-                    <li class="m-nav__item m-nav__item--home">
-                        <a href="#" class="m-nav__link m-nav__link--icon">
-                            <i class="m-nav__link-icon la la-home"></i>
-                        </a>
-                    </li>
-                    <li class="m-nav__separator">-</li>
-                    <li class="m-nav__item">
-                        <a href="" class="m-nav__link">
-                            <span class="m-nav__link-text">Resources</span>
-                        </a>
-                    </li>
-                    <li class="m-nav__separator">-</li>
-                    <li class="m-nav__item">
-                        <a href="" class="m-nav__link">
-                            <span class="m-nav__link-text">Timesheet</span>
-                        </a>
-                    </li>
-                </ul>
+    <div class="text-center mb-3">
+        <h2>Selamat Datang di Aplikasi E Surat</h2>
+        <div>Aplikasi ini memudahkan dalam pengolahan surat dan disposisi</div>
+    </div>
+    <div class="m-portlet m-portlet--bordered-semi m-portlet--space m-portlet--full-height ">
+        <div class="m-portlet__body">
+            <div class="row">
+                <div class="col-xl-2 col-sm-4 col-6">
+                    <div class="card my-1">
+                        <div class="card-body">
+                            <center>
+                                <h3 class="primary"><i class="flaticon-feed fa-3x"></i></h3>
+                                <span>Surat Masuk</span>
+                            </center>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-sm-4 col-6">
+                    <div class="card my-1">
+                        <div class="card-body">
+                            <center>
+                                <h3 class="primary"><i class="flaticon-mail fa-3x"></i></h3>
+                                <span>Surat Keluar</span>
+                            </center>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-sm-4 col-6">
+                    <div class="card my-1">
+                        <div class="card-body">
+                            <center>
+                                <h3 class="primary"><i class="flaticon-list fa-3x"></i></h3>
+                                <span>Draft</span>
+                            </center>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-sm-4 col-6">
+                    <div class="card my-1">
+                        <div class="card-body">
+                            <center>
+                                <h3 class="primary"><i class="flaticon-file-1 fa-3x"></i></h3>
+                                <span>Buat Pesan</span>
+                            </center>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-sm-4 col-6">
+                    <div class="card my-1">
+                        <div class="card-body">
+                            <center>
+                                <h3 class="primary"><i class="flaticon-folder-2 fa-3x"></i></h3>
+                                <span>Disposisi Masuk</span>
+                            </center>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-sm-4 col-6">
+                    <div class="card my-1">
+                        <div class="card-body">
+                            <center>
+                                <h3 class="primary"><i class="flaticon-folder-3 fa-3x"></i></h3>
+                                <span>Disposisi Keluar</span>
+                            </center>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="m-content">
-        Inner page content goes here
+    <div class="row">
+        <div class="col-xl-3 col-sm-4 col-12">
+            <div class="card my-1">
+                <div class="card-body d-flex">
+                    <div class="description">
+                        <h5 class="card-title">Inventarisasi Surat</h5>
+                        <p class="card-text">Total Surat yang dimasukan ke sistem bulan ini.</p>
+                    </div>
+                    <h1 style="font-size: 3rem" class="my-auto">10</h1>
+
+                </div>
+                <div class="card-footer text-muted">
+                    <a href="">Lihat Detail</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-sm-4 col-12">
+            <div class="card my-1">
+                <div class="card-body d-flex">
+                    <div class="description">
+                        <h5 class="card-title">Verifikasi</h5>
+                        <p class="card-text">Total Surat yang harus diverifikasi bulan ini.</p>
+                    </div>
+                    <h1 style="font-size: 3rem" class="my-auto">6</h1>
+
+                </div>
+                <div class="card-footer text-muted">
+                    <a href="">Lihat Detail</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-sm-4 col-12">
+            <div class="card my-1">
+                <div class="card-body d-flex">
+                    <div class="description">
+                        <h5 class="card-title">Tanda Tangan</h5>
+                        <p class="card-text">Total Surat yang harus ditanda tangan bulan ini.</p>
+                    </div>
+                    <h1 style="font-size: 3rem" class="my-auto">1</h1>
+
+                </div>
+                <div class="card-footer text-muted">
+                    <a href="">Lihat Detail</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-sm-4 col-12">
+            <div class="card my-1">
+                <div class="card-body d-flex">
+                    <div class="description">
+                        <h5 class="card-title">Tembusan</h5>
+                        <p class="card-text">Total Surat yang harus ditanda tangan bulan ini.</p>
+                    </div>
+                    <h1 style="font-size: 3rem" class="my-auto">2</h1>
+
+                </div>
+                <div class="card-footer text-muted">
+                    <a href="">Lihat Detail</a>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection

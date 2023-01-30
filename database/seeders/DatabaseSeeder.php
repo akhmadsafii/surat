@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
             [
                 UserSeeder::class,
                 AdminSeeder::class,
-                // TypeSeeder::class,
+                TemplateLetterSeeder::class,
                 // CategorySeeder::class,
                 // UnitSeeder::class,
                 // SupplierSeeder::class,

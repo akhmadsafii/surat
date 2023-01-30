@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\InstructionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingController;
 use Illuminate\Support\Facades\Route;
@@ -36,6 +37,13 @@ Route::middleware('auth:admin')->group(function () {
             Route::get('/', [ProfileController::class, 'admin'])->name('page');
             Route::post('update', [ProfileController::class, 'update'])->name('update');
             Route::post('reset-password', [ProfileController::class, 'update_password'])->name('update_password');
+        });
+
+        Route::prefix('instructions')->name('instruction.')->group(function () {
+            Route::get('/', [InstructionController::class, 'index'])->name('page');
+            Route::post('/', [InstructionController::class, 'store'])->name('store');
+            // Route::post('update', [ProfileController::class, 'update'])->name('update');
+            // Route::post('reset-password', [ProfileController::class, 'update_password'])->name('update_password');
         });
     });
 });

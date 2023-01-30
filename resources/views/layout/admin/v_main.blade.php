@@ -6,86 +6,52 @@
 </head>
 
 <body
-    class="m-page--fluid m--skin- m-content--skin-light2 m-header--fixed m-header--fixed-mobile m-aside-left--enabled m-aside-left--skin-dark m-aside-left--offcanvas m-footer--push m-aside--offcanvas-default">
+    class="m-content--skin- m-header--fixed m-header--fixed-mobile m-aside-left--enabled m-aside-left--skin-light m-aside--offcanvas-default">
+
+    <!-- begin:: Page -->
     <div class="m-grid m-grid--hor m-grid--root m-page">
-        <header id="m_header" class="m-grid__item    m-header " m-minimize-offset="200" m-minimize-mobile-offset="200">
+
+        <!-- BEGIN: Header -->
+        <header id="m_header" class="m-grid__item m-header bg-light" m-minimize-offset="200"
+            m-minimize-mobile-offset="200">
             <div class="m-container m-container--fluid m-container--full-height">
                 <div class="m-stack m-stack--ver m-stack--desktop">
-                    <div class="m-stack__item m-brand  m-brand--skin-dark ">
-                        <div class="m-stack m-stack--ver m-stack--general">
+
+                    <!-- BEGIN: Brand -->
+                    <div class="m-stack__item m-brand  m-brand--skin-light bg-light">
+                        <div class="m-stack m-stack--ver m-stack--general m-stack--fluid">
                             <div class="m-stack__item m-stack__item--middle m-brand__logo">
-                                <a href="index.html" class="m-brand__logo-wrapper">
-                                    <img alt="" src="{{ asset(env('CONFIG_LOGO')) }}" height="50" />
+                                <a href="index.html" class="m-brand__logo-wrapper d-flex">
+                                    <img alt="" src="{{ asset(env('CONFIG_LOGO')) }}" style="height: 52px" class="mr-1" />
+                                    <h2 class="d-inline-flex my-auto ml-1" style="width: max-content;">{{ env('CONFIG_NAME_APPLICATION') }}</h2>
                                 </a>
                             </div>
                             <div class="m-stack__item m-stack__item--middle m-brand__tools">
-                                <a href="javascript:;" id="m_aside_left_minimize_toggle"
-                                    class="m-brand__icon m-brand__toggler m-brand__toggler--left m--visible-desktop-inline-block  ">
+
+                                <!-- BEGIN: Responsive Aside Left Menu Toggler -->
+                                <a href="javascript:;" id="m_aside_left_offcanvas_toggle" class="m-brand__icon m-brand__toggler m-brand__toggler--left m--visible-tablet-and-mobile-inline-block">
                                     <span></span>
                                 </a>
-                                <a href="javascript:;" id="m_aside_left_offcanvas_toggle"
-                                    class="m-brand__icon m-brand__toggler m-brand__toggler--left m--visible-tablet-and-mobile-inline-block">
-                                    <span></span>
-                                </a>
-                                <a id="m_aside_header_menu_mobile_toggle" href="javascript:;"
-                                    class="m-brand__icon m-brand__toggler m--visible-tablet-and-mobile-inline-block">
-                                    <span></span>
-                                </a>
-                                <a id="m_aside_header_topbar_mobile_toggle" href="javascript:;"
-                                    class="m-brand__icon m--visible-tablet-and-mobile-inline-block">
+
+                                <!-- END -->
+
+                                <!-- BEGIN: Topbar Toggler -->
+                                <a id="m_aside_header_topbar_mobile_toggle" href="javascript:;" class="m-brand__icon m--visible-tablet-and-mobile-inline-block">
                                     <i class="flaticon-more"></i>
                                 </a>
+
+                                <!-- BEGIN: Topbar Toggler -->
                             </div>
                         </div>
                     </div>
 
                     <!-- END: Brand -->
                     <div class="m-stack__item m-stack__item--fluid m-header-head" id="m_header_nav">
-                        {{-- <button class="m-aside-header-menu-mobile-close  m-aside-header-menu-mobile-close--skin-dark "
-                            id="m_aside_header_menu_mobile_close_btn"><i class="la la-close"></i></button> --}}
-                        <!-- END: Horizontal Menu -->
 
                         <!-- BEGIN: Topbar -->
                         <div id="m_header_topbar" class="m-topbar  m-stack m-stack--ver m-stack--general">
                             <div class="m-stack__item m-topbar__nav-wrapper">
                                 <ul class="m-topbar__nav m-nav m-nav--inline">
-                                    {{-- <li class="m-nav__item m-dropdown m-dropdown--large m-dropdown--arrow m-dropdown--align-center m-dropdown--mobile-full-width m-dropdown--skin-light	m-list-search m-list-search--skin-light"
-                                        m-dropdown-toggle="click" id="m_quicksearch" m-quicksearch-mode="dropdown"
-                                        m-dropdown-persistent="1">
-                                        <a href="#" class="m-nav__link m-dropdown__toggle">
-                                            <span class="m-nav__link-icon"><span class="m-nav__link-icon-wrapper"><i
-                                                        class="flaticon-search-1"></i></span></span>
-                                        </a>
-                                        <div class="m-dropdown__wrapper">
-                                            <span class="m-dropdown__arrow m-dropdown__arrow--center"></span>
-                                            <div class="m-dropdown__inner ">
-                                                <div class="m-dropdown__header">
-                                                    <form class="m-list-search__form">
-                                                        <div class="m-list-search__form-wrapper">
-                                                            <span class="m-list-search__form-input-wrapper">
-                                                                <input id="m_quicksearch_input" autocomplete="off"
-                                                                    type="text" name="q"
-                                                                    class="m-list-search__form-input" value=""
-                                                                    placeholder="Search...">
-                                                            </span>
-                                                            <span class="m-list-search__form-icon-close"
-                                                                id="m_quicksearch_close">
-                                                                <i class="la la-remove"></i>
-                                                            </span>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                                <div class="m-dropdown__body">
-                                                    <div class="m-dropdown__scrollable m-scrollable"
-                                                        data-scrollable="true" data-height="300"
-                                                        data-mobile-height="200">
-                                                        <div class="m-dropdown__content">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
                                     <li class="m-nav__item m-topbar__notifications m-dropdown m-dropdown--large m-dropdown--arrow m-dropdown--align-center 	m-dropdown--mobile-full-width"
                                         m-dropdown-toggle="click" m-dropdown-persistent="1">
                                         <a href="#" class="m-nav__link m-dropdown__toggle"
@@ -93,7 +59,7 @@
                                             <span class="m-nav__link-icon">
                                                 <span class="m-nav__link-icon-wrapper"><i
                                                         class="flaticon-alarm"></i></span>
-                                                <span class="m-nav__link-badge m-badge m-badge--danger">3</span>
+                                                <span class="m-nav__link-badge m-badge m-badge--success">3</span>
                                             </span>
                                         </a>
                                         <div class="m-dropdown__wrapper">
@@ -128,8 +94,7 @@
                                                         </ul>
                                                         <div class="tab-content">
                                                             <div class="tab-pane active"
-                                                                id="topbar_notifications_notifications"
-                                                                role="tabpanel">
+                                                                id="topbar_notifications_notifications" role="tabpanel">
                                                                 <div class="m-scrollable" data-scrollable="true"
                                                                     data-height="250" data-mobile-height="200">
                                                                     <div
@@ -140,8 +105,7 @@
                                                                                     class="m-list-timeline__badge -m-list-timeline__badge--state-success"></span>
                                                                                 <span class="m-list-timeline__text">12
                                                                                     new users registered</span>
-                                                                                <span
-                                                                                    class="m-list-timeline__time">Just
+                                                                                <span class="m-list-timeline__time">Just
                                                                                     now</span>
                                                                             </div>
                                                                             <div class="m-list-timeline__item">
@@ -304,7 +268,7 @@
                                             <span class="m-nav__link-icon">
                                                 <span class="m-nav__link-icon-wrapper"><i
                                                         class="flaticon-share"></i></span>
-                                                <span class="m-nav__link-badge m-badge m-badge--accent">5</span>
+                                                <span class="m-nav__link-badge m-badge m-badge--brand">5</span>
                                             </span>
                                         </a>
                                         <div class="m-dropdown__wrapper">
@@ -352,12 +316,12 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </li> --}}
+                                    </li>
                                     <li class="m-nav__item m-topbar__user-profile  m-dropdown m-dropdown--medium m-dropdown--arrow  m-dropdown--align-right m-dropdown--mobile-full-width m-dropdown--skin-light"
                                         m-dropdown-toggle="click">
                                         <a href="#" class="m-nav__link m-dropdown__toggle">
                                             <span class="m-topbar__userpic">
-                                                <img src="{{ Auth::guard('admin')->user()->name ? asset(Auth::guard('admin')->user()->file) : asset('asset/img/user4.jpg') }}"
+                                                <img src="{{ asset('asset/img/user4.jpg') }}"
                                                     class="m--img-rounded m--marginless m--img-centered"
                                                     alt="" />
                                             </span>
@@ -378,22 +342,10 @@
                                                                 class="m--img-rounded m--marginless" alt="" />
                                                         </div>
                                                         <div class="m-card-user__details">
-                                                            <span
-                                                                class="m-card-user__name m--font-weight-500 text-capitalize">
-                                                                @if (Auth::guard('admin')->check())
-                                                                    {{ Auth::guard('admin')->user()->name }}
-                                                                @elseif(Auth::guard('user')->check())
-                                                                    {{ Auth::guard('user')->user()->name }}
-                                                                @endif
-                                                            </span>
+                                                            <span class="m-card-user__name m--font-weight-500">Mark
+                                                                Andre</span>
                                                             <a href=""
-                                                                class="m-card-user__email m--font-weight-300 m-link">
-                                                                @if (Auth::guard('admin')->check())
-                                                                    {{ Auth::guard('admin')->user()->email }}
-                                                                @elseif(Auth::guard('user')->check())
-                                                                    {{ Auth::guard('user')->user()->email }}
-                                                                @endif
-                                                            </a>
+                                                                class="m-card-user__email m--font-weight-300 m-link">mark.andre@gmail.com</a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -404,8 +356,7 @@
                                                                 <span class="m-nav__section-text">Section</span>
                                                             </li>
                                                             <li class="m-nav__item">
-                                                                <a href="{{ route('admin.profile.page', ['information' => 'detail']) }}"
-                                                                    class="m-nav__link">
+                                                                <a href="profile.html" class="m-nav__link">
                                                                     <i class="m-nav__link-icon flaticon-profile-1"></i>
                                                                     <span class="m-nav__link-title">
                                                                         <span class="m-nav__link-wrap">
@@ -446,7 +397,7 @@
                                                             <li class="m-nav__separator m-nav__separator--fit">
                                                             </li>
                                                             <li class="m-nav__item">
-                                                                <a href="{{ route('auth.logout') }}"
+                                                                <a href="snippets/pages/user/login-1.html"
                                                                     class="btn m-btn--pill    btn-secondary m-btn m-btn--custom m-btn--label-brand m-btn--bolder">Logout</a>
                                                             </li>
                                                         </ul>
@@ -458,25 +409,82 @@
                                 </ul>
                             </div>
                         </div>
+
+                        <!-- END: Topbar -->
                     </div>
                 </div>
             </div>
         </header>
+
+        <!-- END: Header -->
+
+        <!-- begin::Body -->
         <div class="m-grid__item m-grid__item--fluid m-grid m-grid--ver-desktop m-grid--desktop m-body">
-            <button class="m-aside-left-close  m-aside-left-close--skin-dark " id="m_aside_left_close_btn"><i
+
+            <!-- BEGIN: Left Aside -->
+            <button class="m-aside-left-close  m-aside-left-close--skin-light " id="m_aside_left_close_btn"><i
                     class="la la-close"></i></button>
-            <div id="m_aside_left" class="m-grid__item	m-aside-left  m-aside-left--skin-dark ">
+            <div id="m_aside_left" class="m-grid__item	m-aside-left  m-aside-left--skin-light ">
                 @include('layout.admin.v_sidebar')
             </div>
+
+            <!-- END: Left Aside -->
             <div class="m-grid__item m-grid__item--fluid m-wrapper">
-                @yield('content')
+                <!-- END: Subheader -->
+                <div class="m-content">
+                    @yield('content')
+                </div>
             </div>
         </div>
         @stack('modals')
         <footer class="m-grid__item		m-footer ">
-            @include('layout.admin.v_footer')
+            <div class="m-container m-container--fluid m-container--full-height m-page__container">
+                <div class="m-stack m-stack--flex-tablet-and-mobile m-stack--ver m-stack--desktop">
+                    <div class="m-stack__item m-stack__item--left m-stack__item--middle m-stack__item--last">
+                        <span class="m-footer__copyright">
+                            2017 &copy; Metronic theme by <a href="https://keenthemes.com"
+                                class="m-link">Keenthemes</a>
+                        </span>
+                    </div>
+                    <div class="m-stack__item m-stack__item--right m-stack__item--middle m-stack__item--first">
+                        <ul class="m-footer__nav m-nav m-nav--inline m--pull-right">
+                            <li class="m-nav__item">
+                                <a href="#" class="m-nav__link">
+                                    <span class="m-nav__link-text">About</span>
+                                </a>
+                            </li>
+                            <li class="m-nav__item">
+                                <a href="#" class="m-nav__link">
+                                    <span class="m-nav__link-text">Privacy</span>
+                                </a>
+                            </li>
+                            <li class="m-nav__item">
+                                <a href="#" class="m-nav__link">
+                                    <span class="m-nav__link-text">T&C</span>
+                                </a>
+                            </li>
+                            <li class="m-nav__item">
+                                <a href="#" class="m-nav__link">
+                                    <span class="m-nav__link-text">Purchase</span>
+                                </a>
+                            </li>
+                            <li class="m-nav__item m-nav__item--last">
+                                <a href="#" class="m-nav__link" data-toggle="m-tooltip" title="Support Center"
+                                    data-placement="left">
+                                    <i class="m-nav__link-icon flaticon-info m--icon-font-size-lg3"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </footer>
+
+        <!-- end::Footer -->
     </div>
+
+
+
     <div id="m_scroll_top" class="m-scroll-top">
         <i class="la la-arrow-up"></i>
     </div>
