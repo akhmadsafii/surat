@@ -1,0 +1,1 @@
+<script src="{{ asset('asset/js/datatables.bundle.js') }}" type="text/javascript"></script>
