@@ -15,7 +15,7 @@
                 <ul class="m-menu__subnav">
                     <li class="m-menu__item  m-menu__item--parent" aria-haspopup="true"><span class="m-menu__link"><span
                                 class="m-menu__link-text">Surat</span></span></li>
-                    <li class="m-menu__item  m-menu__item--active" aria-haspopup="true"><a href="inner.html"
+                    <li class="m-menu__item  m-menu__item--active" aria-haspopup="true"><a href="{{ route('admin.message.inbox.page') }}"
                             class="m-menu__link "><i
                                 class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span
                                 class="m-menu__link-text">Surat Masuk</span></a></li>
@@ -84,7 +84,7 @@
                 <ul class="m-menu__subnav">
                     <li class="m-menu__item  m-menu__item--parent" aria-haspopup="true"><span class="m-menu__link"><span
                                 class="m-menu__link-text">Pengaturan</span></span></li>
-                    <li class="m-menu__item  m-menu__item--active" aria-haspopup="true"><a href="inner.html"
+                    <li class="m-menu__item  m-menu__item--active" aria-haspopup="true"><a href="{{ route('admin.template_letter.page') }}"
                             class="m-menu__link "><i
                                 class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span
                                 class="m-menu__link-text">Jenis Surat</span></a></li>

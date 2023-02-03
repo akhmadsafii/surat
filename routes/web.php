@@ -3,9 +3,12 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\InboxController;
 use App\Http\Controllers\InstructionController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\TemplateLetterController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [AuthController::class, 'login']);
@@ -42,6 +45,20 @@ Route::middleware('auth:admin')->group(function () {
         Route::prefix('instructions')->name('instruction.')->group(function () {
             Route::get('/', [InstructionController::class, 'index'])->name('page');
             Route::post('/', [InstructionController::class, 'store'])->name('store');
+        });
+
+        Route::prefix('messages')->name('message.')->group(function () {
+            Route::prefix('inbox')->name('inbox.')->group(function () {
+                Route::get('/', [InboxController::class, 'inbox'])->name('page');
+                Route::get('create', [InboxController::class, 'create'])->name('create');
+            });
+            // Route::get('/', [MessageController::class, 'inbox'])->name('inbox');
+            // Route::post('/', [MessageController::class, 'store'])->name('store');
+        });
+
+        Route::prefix('template-letters')->name('template_letter.')->group(function () {
+            Route::get('/', [TemplateLetterController::class, 'index'])->name('page');
+            Route::post('/', [TemplateLetterController::class, 'store'])->name('store');
             // Route::post('update', [ProfileController::class, 'update'])->name('update');
             // Route::post('reset-password', [ProfileController::class, 'update_password'])->name('update_password');
         });
