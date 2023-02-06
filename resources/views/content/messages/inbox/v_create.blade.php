@@ -85,7 +85,8 @@
                 </div>
                 <div class="form-group m-form__group">
                     <label for="exampleInputEmail1">Isi</label>
-                    <div class="summernote" id="m_summernote_1"></div>
+                    <textarea name="content" id="content" class="form-control summernote"></textarea>
+                    {{-- <div class="summernote" id="m_summernote_1"></div> --}}
                 </div>
                 <div class="form-group m-form__group">
                     <label for="exampleInputEmail1">Tembusan</label>

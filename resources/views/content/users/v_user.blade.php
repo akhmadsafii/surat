@@ -8,7 +8,6 @@
                 left: 0;
                 width: 100%;
                 height: 125px;
-                /* background-image: url(../img/banner.jpg); */
                 background-position: center;
                 background-size: cover;
             }
@@ -54,7 +53,9 @@
                             <p class="mb-2">{{ $us['nip'] ?? '-' }}</p>
                         </div>
                         <div class="social-links d-flex justify-content-center">
-                            <button type="button" onclick="{{ $us['name'] == null ? 'addData("'.$us['code'].'")' : 'editData('.$us['code'].')' }}" class="btn btn-{{ $us['name'] == null ? 'accent' : 'primary' }} m-btn m-btn--air m-btn--custom">{{ $us['name'] == null ? 'Tambah' : 'Edit' }}</button>
+                            <button type="button"
+                                onclick="{{ $us['name'] == null ? 'addData("' . $us['code'] . '")' : 'editData("' . $us['code'] . '")' }}"
+                                class="btn btn-{{ $us['name'] == null ? 'accent' : 'primary' }} m-btn m-btn--air m-btn--custom">{{ $us['name'] == null ? 'Tambah' : 'Edit' }}</button>
                             @if ($us['name'] != null)
                                 &nbsp;&nbsp;
                                 <button type="button" class="btn btn-info m-btn m-btn--air m-btn--custom">Detail</button>
@@ -87,12 +88,12 @@
                             </div>
                             <div class="form-group">
                                 <label>NIP</label>
-                                <input type="text" class="form-control m-input" id="nip" name="nip"
+                                <input type="text" class="form-control m-input" required id="nip" name="nip"
                                     placeholder="NIP">
                             </div>
                             <div class="form-group">
                                 <label>Email</label>
-                                <input type="email" class="form-control m-input" id="email" name="email"
+                                <input type="email" class="form-control m-input" id="email" required name="email"
                                     placeholder="Email">
                             </div>
                             <div class="form-group">
@@ -120,7 +121,8 @@
                                     </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <img id="preview-image" src="https://via.placeholder.com/150" alt="Preview" class="w-100">
+                                    <img id="preview-image" src="https://via.placeholder.com/150" alt="Preview"
+                                        class="w-100">
                                 </div>
                             </div>
                         </div>
@@ -180,7 +182,30 @@
                     }, ]
                 });
 
-                formImageSubmit('#formSubmit', '#btnSubmit', '', '#modalForm')
+                $('body').on('submit', '#formSubmit', function(e) {
+                    e.preventDefault();
+                    $('#btnSubmit').addClass('m-loader m-loader--light m-loader--right');
+                    $('#btnSubmit').attr("disabled", true);
+                    var formData = new FormData(this);
+                    $.ajax({
+                        type: "POST",
+                        url: '',
+                        data: formData,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        success: (data) => {
+                            toastr.success(data.message, "Berhasil");
+                            window.location.reload()
+                        },
+                        error: function(data) {
+                            const res = data.responseJSON;
+                            toastr.error(res.message, "GAGAL");
+                            $('#btnSubmit').removeClass('m-loader m-loader--light m-loader--right');
+                            $('#btnSubmit').attr("disabled", false);
+                        }
+                    });
+                });
 
             })
 
@@ -192,18 +217,21 @@
                 $('#modalForm').modal('show');
             }
 
-            function editData(id) {
+            function editData(code) {
                 $.ajax({
-                    url: '{{ route('admin.manage.detail') }}',
+                    url: '{{ route('admin.user.detail') }}',
                     data: {
-                        id
+                        code
                     },
                     success: (data) => {
                         $('.modal-title').html('Edit {{ session('title') }}');
-                        $('#id_admin').val(data.id);
+                        $('#id_user').val(data.id);
+                        $('#position').val(data.position);
                         $('#name').val(data.name);
+                        $('#nip').val(data.nip);
                         $('#email').val(data.email);
                         $('#phone').val(data.phone);
+                        $('#address').val(data.address);
                         $('#preview-image').attr('src', data.avatar);
                         $('#modalForm').modal('show');
                     }

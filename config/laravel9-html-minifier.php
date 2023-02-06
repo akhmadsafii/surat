@@ -9,7 +9,7 @@ return [
     | Setel bagian ini ke false untuk mematikan minify
     | 
     */
-    "enable" => env("LARAVEL_HTML_MINIFIER_ENABLE", true),
+    "enable" => env("LARAVEL_HTML_MINIFIER_ENABLE", false),
 
     /*
     |--------------------------------------------------------------------------
@@ -35,7 +35,7 @@ return [
     | Dan jangan lupa untuk selalu mengakhiri dengan semicolon
     | jika bidang ini disetel ke false.
     */
-    "js_automatic_insert_semicolon" => env("LARAVEL_HTML_MINIFIER_JS_AUTOMATIC_INSERT_SEMICOLON", true),
+    "js_automatic_insert_semicolon" => env("LARAVEL_HTML_MINIFIER_JS_AUTOMATIC_INSERT_SEMICOLON", false),
 
     /*
     |--------------------------------------------------------------------------
@@ -75,10 +75,10 @@ return [
     | Anda dapat menggunakan * sebagai wildcard.
     |
     */
- 
+
     "ignore" => [
-     //   "*/download/*",  // Abaikan semua route yang mengandung download
-     //   "admin/*",      // Abaikan semua route dengan awalan admin,
-     //   "*/user"       // Abaikan route dengan akhiran user
+        //   "*/download/*",  // Abaikan semua route yang mengandung download
+        //   "admin/*",      // Abaikan semua route dengan awalan admin,
+        //   "*/user"       // Abaikan route dengan akhiran user
     ],
 ];

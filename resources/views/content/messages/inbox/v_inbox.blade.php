@@ -113,11 +113,11 @@
                         data: 'date',
                         name: 'date',
                     }, {
-                        data: 'last_login',
-                        name: 'last_login',
+                        data: 'received',
+                        name: 'received',
                     }, {
-                        data: 'action',
-                        name: 'action',
+                        data: 'status',
+                        name: 'status',
                         orderable: false,
                         searchable: false,
                         className: 'text-center align-middle'

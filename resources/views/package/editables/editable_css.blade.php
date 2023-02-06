@@ -1,0 +1,1 @@
+<link href="{{ asset('asset/css/editable.css') }}" rel="stylesheet" type="text/css" />

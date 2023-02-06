@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\DateHelper;
+use App\Helpers\Helper;
 use App\Helpers\ImageHelper;
 use App\Models\Message;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
@@ -16,32 +18,26 @@ class InboxController extends Controller
         $messages = Message::query();
         if ($request->ajax()) {
             return DataTables::of($messages)->addIndexColumn()
-                ->addColumn('action', function ($row) {
-                    $btn = '<span class="dropdown">
-                        <a href="#" class="btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" data-toggle="dropdown" aria-expanded="true">
-                            <i class="la la-ellipsis-h"></i>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="javascript:void(0)" onclick="editData(' . $row['id'] . ')"><i class="la la-edit"></i> Edit Detail</a>
-                            <a class="dropdown-item" href="#"><i class="la la-leaf"></i> Update Status</a>
-                            <a class="dropdown-item" href="javascript:void(0)" onclick="deleteData(' . $row['id'] . ')"><i class="la la-trash"></i> Hapus</a>
-                        </div>
-                    </span>';
-                    return $btn;
+                ->addColumn('status', function ($row) {
+                    return '<span class="m--font-bold m--font-primary">Retail</span>';
                 })
                 ->editColumn('regard', function ($message) {
-                    return '<a href="' . route('admin.message.inbox.detail', ['c' => encrypt($message['id'])]) . '"><b>' . $message['regard'] . '</b><br><small>' . $message['category'] . '</small></a>';
+                    return '<a href="' . route('admin.message.inbox.detail', ['number' => $message['number']]) . '"><b>' . $message['regard'] . '</b><br><small>' . $message['category'] . '</small></a>';
                 })
                 ->editColumn('from', function ($message) {
-                    return '<a href="' . route('admin.message.inbox.detail', ['c' => encrypt($message['id'])]) . '">' . $message['from'] . '</a>';
+                    return '<a href="' . route('admin.message.inbox.detail', ['number' => $message['number']]) . '">' . $message['from'] . '</a>';
                 })
                 ->addColumn('received', function ($message) {
-                    return '<a href="' . route('admin.message.inbox.detail', ['c' => encrypt($message['id'])]) . '"><b>' . $message['regard'] . '</b><br><small>' . $message['category'] . '</small></a>';
+                    $user = User::where([
+                        ['position', $message['to_position']],
+                        ['status', '!=', 0],
+                    ])->first();
+                    return '<a href="' . route('admin.message.inbox.detail', ['number' => $message['number']]) . '"><b>' . Helper::get_job($message['to_position']) . '</b><br><small>' . $user['name'] . '</small></a>';
                 })
                 ->editColumn('date', function ($message) {
                     return DateHelper::getTanggal($message['date']);
                 })
-                ->rawColumns(['action', 'regard', 'date', 'from'])
+                ->rawColumns(['status', 'regard', 'date', 'from', 'received'])
                 ->make(true);
         }
         return view('content.messages.inbox.v_inbox');
@@ -49,7 +45,10 @@ class InboxController extends Controller
 
     public function detail(Request $request)
     {
-        // dd($request);
+        // dd($_GET['number']);
+        $message = Message::where('number', $_GET['number'])->first();
+        // dd($message);
+        return view('content.messages.inbox.v_detail', compact('message'));
     }
 
     public function create()
@@ -81,7 +80,17 @@ class InboxController extends Controller
             $data
         );
         return response()->json([
-            'message' => 'Kategori berhasil disimpan',
+            'message' => 'Pesan berhasil terkirim',
+            'status' => true,
+        ], 200);
+    }
+
+    public function save(Request $request)
+    {
+        // dd($request);
+        $result = Message::where('id', $request->pk)->update([$request->name => $request->value]);
+        return response()->json([
+            'message' => 'Pesan berhasil terkirim',
             'status' => true,
         ], 200);
     }

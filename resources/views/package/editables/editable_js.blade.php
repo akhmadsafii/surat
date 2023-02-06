@@ -1,0 +1,2 @@
+{{-- <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script> --}}
+<script src="{{ asset('asset/js/editable.min.js') }}" type="text/javascript"></script>

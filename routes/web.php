@@ -50,7 +50,8 @@ Route::middleware('auth:admin')->group(function () {
 
         Route::prefix('users')->name('user.')->group(function () {
             Route::get('/', [UserController::class, 'index'])->name('page');
-            // Route::post('/', [InstructionController::class, 'store'])->name('store');
+            Route::post('/', [UserController::class, 'store'])->name('store');
+            Route::get('detail', [UserController::class, 'detail'])->name('detail');
         });
 
         Route::prefix('messages')->name('message.')->group(function () {
@@ -59,6 +60,7 @@ Route::middleware('auth:admin')->group(function () {
                 Route::get('detail', [InboxController::class, 'detail'])->name('detail');
                 Route::get('create', [InboxController::class, 'create'])->name('create');
                 Route::post('save', [InboxController::class, 'store'])->name('store');
+                Route::post('save-detail', [InboxController::class, 'save'])->name('save');
             });
             // Route::get('/', [MessageController::class, 'inbox'])->name('inbox');
             // Route::post('/', [MessageController::class, 'store'])->name('store');

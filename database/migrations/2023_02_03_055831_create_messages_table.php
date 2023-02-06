@@ -17,7 +17,8 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->string('code')->nullable();
             $table->bigInteger('no_agenda')->nullable();
-            $table->enum('category', ['penting', 'rahasia', 'biasa', 'segera', 'sangat_segera']);
+            $table->enum('nature_letter', ['biasa', 'terbatas', 'rahasia', 'sangat_rahasia']);
+            $table->enum('urgency_letter', ['biasa', 'segera', 'sangat_segera']);
             $table->string('type');
             $table->string('number');
             $table->date('date');
