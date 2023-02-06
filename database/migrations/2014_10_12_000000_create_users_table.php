@@ -17,7 +17,8 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->string('code')->nullable();
             $table->string('name');
-            $table->string('nisn');
+            $table->string('nip');
+            $table->string('position');
             $table->string('email');
             $table->string('phone')->nullable();
             $table->string('file')->nullable();

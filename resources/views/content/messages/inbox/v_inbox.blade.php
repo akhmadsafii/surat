@@ -80,14 +80,12 @@
                             </table>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
     @push('scripts')
         @include('package.datatables.datatable_js')
-        @include('component.formImageSubmit')
         <script>
             $(function() {
                 $.ajaxSetup({
@@ -106,14 +104,14 @@
                         "print", "copyHtml5", "excelHtml5", "csvHtml5", "pdfHtml5",
                     ],
                     columns: [{
-                        data: 'name',
-                        name: 'name',
+                        data: 'from',
+                        name: 'from',
                     }, {
-                        data: 'phone',
-                        name: 'phone',
+                        data: 'regard',
+                        name: 'regard',
                     }, {
-                        data: 'email',
-                        name: 'email',
+                        data: 'date',
+                        name: 'date',
                     }, {
                         data: 'last_login',
                         name: 'last_login',
@@ -126,64 +124,7 @@
                     }, ]
                 });
 
-                formImageSubmit('#formSubmit', '#btnSubmit', '', '#modalForm')
-
             })
-
-            function addData() {
-                $('#id_admin').val("");
-                $('#formSubmit').trigger("reset");
-                $('.modal-title').html("Tambah {{ session('title') }}");
-                $('#modalForm').modal('show');
-                // $('#notice_password').addClass('d-none');
-            }
-
-            function editData(id) {
-                $.ajax({
-                    url: '{{ route('admin.manage.detail') }}',
-                    data: {
-                        id
-                    },
-                    success: (data) => {
-                       $('.modal-title').html('Edit {{ session('title') }}');
-                       $('#id_admin').val(data.id);
-                       $('#name').val(data.name);
-                       $('#email').val(data.email);
-                       $('#phone').val(data.phone);
-                       $('#preview-image').attr('src', data.avatar);
-                       $('#modalForm').modal('show');
-                    }
-                });
-            }
-
-            function deleteData(id) {
-                if (confirm("Apa kamu yakin ingin menghapus data ini?") == true) {
-                    $.ajax({
-                        url: "{{ route('admin.manage.delete') }}",
-                        data: {
-                            id
-                        },
-                        success: function(data) {
-                            $('#list-table').dataTable().fnDraw(false);
-                        },
-                        error: function(data) {
-                            const res = data.responseJSON;
-                            toastr.error(res.message, "GAGAL");
-                        }
-                    })
-                }
-            }
-
-            function readURL(input, id) {
-                id = id || '#preview-image';
-                if (input.files[0]) {
-                    var reader = new FileReader();
-                    reader.onload = function(e) {
-                        $(id).attr('src', e.target.result);
-                    };
-                    reader.readAsDataURL(input.files[0]);
-                }
-            }
         </script>
     @endpush
 @endsection

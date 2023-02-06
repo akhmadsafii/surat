@@ -17,12 +17,12 @@ class UserFactory extends Factory
     {
         return [
             'name' => $this->faker->name(),
-            'nisn' => $this->faker->randomNumber($nbDigits = NULL, $strict = false),
+            'nip' => $this->faker->randomNumber($nbDigits = NULL, $strict = false),
             'phone' => $this->faker->phoneNumber(),
             // 'gender' => $this->faker->randomElement(['male', 'female']),
             // 'place_of_birth' => $this->faker->city(),
             // 'date_of_birth' => $this->faker->date($format = 'Y-m-d', $max = 'now'),
-            // 'religion' => $this->faker->randomElement(['islam', 'hindu', 'protestan', 'katholik', 'buddha', 'konghucu']),
+            'position' => $this->faker->randomElement(['kepsek', 'kabag_tu', 'waka_sarpras', 'waka_kesiswaan', 'waka_kurikulum', 'waka_humas']),
             'address' => $this->faker->streetAddress(),
             // 'last_ip' => $this->faker->ipv4(),
             // 'last_login' => $this->faker->dateTime($max = 'now', $timezone = null),

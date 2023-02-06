@@ -1,0 +1,1 @@
+<script src="{{ asset('asset/js/summernote.js') }}" type="text/javascript"></script>

@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('messages', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('code')->nullable();
-            $table->bigInteger('no_agenda');
+            $table->bigInteger('no_agenda')->nullable();
             $table->enum('category', ['penting', 'rahasia', 'biasa', 'segera', 'sangat_segera']);
             $table->string('type');
             $table->string('number');
@@ -24,8 +24,8 @@ return new class extends Migration
             $table->string('from');
             $table->text('address_sender')->nullable();
             $table->enum('classification', ['eksternal', 'internal']);
-            $table->string('to_user')->nullable();
-            $table->integer('position')->nullable();
+            $table->string('to_user')->nullable();  //opsional
+            $table->string('to_position')->nullable(); //opsional
             $table->string('regard')->nullable();
             $table->text('content')->nullable();
             $table->text('description')->nullable();

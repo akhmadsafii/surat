@@ -39,7 +39,8 @@ class ImageHelper
     {
         $asset = ImageHelper::upload_asset($request, $name, $path, $data);
         $dir_path = public_path() . '/' . $asset[$name];
-        Gdrive::put($asset[$name], $dir_path);
+        $tes = Gdrive::put($asset[$name], $dir_path);
+        dd($tes);
         File::delete($asset[$name]);
         return $asset;
     }

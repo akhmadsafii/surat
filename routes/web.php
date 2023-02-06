@@ -9,6 +9,7 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\TemplateLetterController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [AuthController::class, 'login']);
@@ -47,10 +48,17 @@ Route::middleware('auth:admin')->group(function () {
             Route::post('/', [InstructionController::class, 'store'])->name('store');
         });
 
+        Route::prefix('users')->name('user.')->group(function () {
+            Route::get('/', [UserController::class, 'index'])->name('page');
+            // Route::post('/', [InstructionController::class, 'store'])->name('store');
+        });
+
         Route::prefix('messages')->name('message.')->group(function () {
             Route::prefix('inbox')->name('inbox.')->group(function () {
                 Route::get('/', [InboxController::class, 'inbox'])->name('page');
+                Route::get('detail', [InboxController::class, 'detail'])->name('detail');
                 Route::get('create', [InboxController::class, 'create'])->name('create');
+                Route::post('save', [InboxController::class, 'store'])->name('store');
             });
             // Route::get('/', [MessageController::class, 'inbox'])->name('inbox');
             // Route::post('/', [MessageController::class, 'store'])->name('store');

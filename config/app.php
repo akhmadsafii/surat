@@ -213,6 +213,7 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
         'DateHelper' => App\Helpers\DateHelper::class,
+        'Helper' => App\Helpers\Helper::class,
         'Image' => Intervention\Image\Facades\Image::class
     ])->toArray(),
 
