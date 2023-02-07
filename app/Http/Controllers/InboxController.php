@@ -47,8 +47,13 @@ class InboxController extends Controller
     {
         // dd($_GET['number']);
         $message = Message::where('number', $_GET['number'])->first();
+        $position = [];
+        foreach (Helper::job_array() as $key => $pst) {
+            $position[] = '"' . $key . '"';
+        }
+        // dd($position);
         // dd($message);
-        return view('content.messages.inbox.v_detail', compact('message'));
+        return view('content.messages.inbox.v_detail', compact('message', 'position'));
     }
 
     public function create()

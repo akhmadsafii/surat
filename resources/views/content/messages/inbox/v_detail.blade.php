@@ -52,21 +52,85 @@
                                     class="pUpdate" data-template="D / MMM / YYYY" data-value="{{ $message['date'] }}"></a>
                             </div>
                         </div>
-
+                        <div class="form-group m-form__group row">
+                            <label class="col-lg-3 col-form-label">Sifat Surat:</label>
+                            <div class="col-lg-6 my-auto">
+                                <a data-name="nature_letter" href="#" data-type="select"
+                                    data-url="{{ route('admin.message.inbox.save') }}" data-pk="{{ $message['id'] }}"
+                                    class="pUpdate" data-source="['biasa', 'terbatas', 'rahasia', 'sangat_rahasia']"
+                                    data-value="{{ $message['nature_letter'] }}"></a>
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row">
+                            <label class="col-lg-3 col-form-label">Urgensi Surat:</label>
+                            <div class="col-lg-6 my-auto">
+                                <a data-name="urgency_letter" href="#" data-type="select"
+                                    data-url="{{ route('admin.message.inbox.save') }}" data-pk="{{ $message['id'] }}"
+                                    class="pUpdate" data-source="['biasa', 'segera', 'sangat_segera']"
+                                    data-value="{{ $message['urgency_letter'] }}"></a>
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row">
+                            <label class="col-lg-3 col-form-label">Klasifikasi Surat:</label>
+                            <div class="col-lg-6 my-auto">
+                                <a data-name="classification" href="#" data-type="select"
+                                    data-url="{{ route('admin.message.inbox.save') }}" data-pk="{{ $message['id'] }}"
+                                    class="pUpdate" data-source="['eksternal', 'internal']"
+                                    data-value="{{ $message['classification'] }}"></a>
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row">
+                            <label class="col-lg-3 col-form-label">Klasifikasi Surat:</label>
+                            <div class="col-lg-6 my-auto">
+                                <a data-name="classification" href="#" data-type="select"
+                                    data-url="{{ route('admin.message.inbox.save') }}" data-pk="{{ $message['id'] }}"
+                                    class="pUpdate" data-source="['eksternal', 'internal']"
+                                    data-value="{{ $message['classification'] }}"></a>
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row">
+                            <label class="col-lg-3 col-form-label">Dari:</label>
+                            <div class="col-lg-6 my-auto">
+                                <a data-name="from" href="#" data-type="text"
+                                    data-url="{{ route('admin.message.inbox.save') }}" data-pk="{{ $message['id'] }}"
+                                    class="pUpdate" data-title="" data-value="{{ $message['from'] }}"></a>
+                            </div>
+                        </div>
+                        @php
+                            $job = implode(', ', $position);
+                        @endphp
+                        <div class="form-group m-form__group row">
+                            <label class="col-lg-3 col-form-label">Tujuan:</label>
+                            <div class="col-lg-6 my-auto">
+                                <a data-name="to_position" href="#" data-type="select"
+                                    data-url="{{ route('admin.message.inbox.save') }}" data-pk="{{ $message['id'] }}"
+                                    class="pUpdate" data-source="[{{ $job }}]"
+                                    data-value="{{ $message['to_position'] }}"></a>
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row">
+                            <label class="col-lg-3 col-form-label">Perihal:</label>
+                            <div class="col-lg-6 my-auto">
+                                <a data-name="regard" href="#" data-type="text"
+                                    data-url="{{ route('admin.message.inbox.save') }}" data-pk="{{ $message['id'] }}"
+                                    class="pUpdate" data-title="" data-value="{{ $message['regard'] }}"></a>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-md-5">
                         <div class="form-group m-form__group">
-                            <label for="exampleInputEmail1">Jenis Surat</label>
-                            <select name="type" id="type" class="form-control">
-                                <option value="" selected disabled>Pilih Jenis Surat</option>
-                                <option value="skl">Surat Keterangan Lulus</option>
-                                <option value="skp">Surat Pengumuman</option>
-                            </select>
+                            <label for="exampleInputEmail1">Dokumen Pendukung 1</label>
+                            <input type="file" name="doc_1" id="doc_1" class="form-control-file">
                         </div>
                         <div class="form-group m-form__group">
-                            <label for="exampleInputEmail1">Tanggal Surat</label>
-                            <input type="date" class="form-control" name="date" id="date">
+                            <label for="exampleInputEmail1">Dokumen Pendukung 2</label>
+                            <input type="file" name="doc_2" id="doc_2" class="form-control-file">
                         </div>
+                        <div class="form-group m-form__group">
+                            <label for="exampleInputEmail1">Dokumen Pendukung 3</label>
+                            <input type="file" name="doc_3" id="doc_3" class="form-control-file">
+                        </div>
+
                     </div>
                 </div>
 
@@ -92,7 +156,7 @@
 
                 $.fn.editable.defaults.mode = 'inline';
                 $('.pUpdate').editable({
-                    
+
                     validate: function(value) {
                         if ($.trim(value) == '') {
                             return 'Value is required.';
