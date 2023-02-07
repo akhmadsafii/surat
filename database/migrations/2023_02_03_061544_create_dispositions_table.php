@@ -19,9 +19,9 @@ return new class extends Migration
             $table->date('date')->nullable();
             $table->bigInteger('id_message');
             $table->string('id_instruction')->nullable();
-            $table->string('id_received')->nullable();
+            $table->string('received')->nullable();
             $table->text('other_instruction')->nullable();
-            $table->enum('category', ['penting', 'rahasia', 'biasa', 'segera', 'sangat_segera']);
+            $table->enum('nature', ['penting', 'rahasia', 'biasa', 'segera', 'sangat_segera']);
             $table->string('received_position')->nullable(); //waka waka punya turunan
             $table->date('max_date')->nullable();
             $table->tinyInteger('status')->default(1);

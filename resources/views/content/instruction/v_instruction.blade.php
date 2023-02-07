@@ -86,13 +86,19 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form id="formSubmit">
+                    <form id="formSubmit" class="m-form">
                         <div class="modal-body">
                             <input type="hidden" name="id" id="id_instruction">
                             <div class="form-group">
                                 <label>Nama</label>
                                 <input type="text" class="form-control m-input" id="name" name="name"
                                     placeholder="Nama Instruksi">
+                            </div>
+                            <div class="form-group">
+                                <label>Slug</label>&nbsp;<span class="m-form__help">(Opsional)</span>
+                                <input type="text" class="form-control m-input" id="code" name="code"
+                                placeholder="Slug Instruksi">
+                                
                             </div>
                             <div class="m-form__group form-group">
                                 <label for="">Status:</label>

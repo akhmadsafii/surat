@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DispositionController;
 use App\Http\Controllers\InboxController;
 use App\Http\Controllers\InstructionController;
 use App\Http\Controllers\MessageController;
@@ -57,10 +58,14 @@ Route::middleware('auth:admin')->group(function () {
         Route::prefix('messages')->name('message.')->group(function () {
             Route::prefix('inbox')->name('inbox.')->group(function () {
                 Route::get('/', [InboxController::class, 'inbox'])->name('page');
-                Route::get('detail', [InboxController::class, 'detail'])->name('detail');
+                Route::get('detail/{id}', [InboxController::class, 'detail'])->name('detail');
                 Route::get('create', [InboxController::class, 'create'])->name('create');
                 Route::post('save', [InboxController::class, 'store'])->name('store');
                 Route::post('save-detail', [InboxController::class, 'save'])->name('save');
+                Route::get('delete', [InboxController::class, 'delete'])->name('delete');
+                Route::prefix('dispositions')->name('disposition.')->group(function () {
+                    Route::get('message/{code}', [DispositionController::class, 'create'])->name('create');
+                });
             });
             // Route::get('/', [MessageController::class, 'inbox'])->name('inbox');
             // Route::post('/', [MessageController::class, 'store'])->name('store');

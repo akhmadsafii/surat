@@ -2,8 +2,22 @@
 
 namespace App\Helpers;
 
+use Vinkla\Hashids\Facades\Hashids;
+
 class Helper
 {
+    public static function encode($param)
+    {
+        $value = Hashids::encode($param);
+        return $value;
+    }
+
+    public static function str_random($length)
+    {
+        $pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        return substr(str_shuffle(str_repeat($pool, 5)), 0, $length);
+    }
+
     public static function check_and_make_dir($path)
     {
         if (!is_dir($path)) {

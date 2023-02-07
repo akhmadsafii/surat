@@ -22,17 +22,17 @@ class InboxController extends Controller
                     return '<span class="m--font-bold m--font-primary">Retail</span>';
                 })
                 ->editColumn('regard', function ($message) {
-                    return '<a href="' . route('admin.message.inbox.detail', ['number' => $message['number']]) . '"><b>' . $message['regard'] . '</b><br><small>' . $message['category'] . '</small></a>';
+                    return '<a href="' . route('admin.message.inbox.detail', $message['code']) . '"><b>' . $message['regard'] . '</b><br><small>' . $message['category'] . '</small></a>';
                 })
                 ->editColumn('from', function ($message) {
-                    return '<a href="' . route('admin.message.inbox.detail', ['number' => $message['number']]) . '">' . $message['from'] . '</a>';
+                    return '<a href="' . route('admin.message.inbox.detail', $message['code']) . '">' . $message['from'] . '</a>';
                 })
                 ->addColumn('received', function ($message) {
                     $user = User::where([
                         ['position', $message['to_position']],
                         ['status', '!=', 0],
                     ])->first();
-                    return '<a href="' . route('admin.message.inbox.detail', ['number' => $message['number']]) . '"><b>' . Helper::get_job($message['to_position']) . '</b><br><small>' . $user['name'] . '</small></a>';
+                    return '<a href="' . route('admin.message.inbox.detail', $message['code']) . '"><b>' . Helper::get_job($message['to_position']) . '</b><br><small>' . $user['name'] . '</small></a>';
                 })
                 ->editColumn('date', function ($message) {
                     return DateHelper::getTanggal($message['date']);
@@ -43,10 +43,13 @@ class InboxController extends Controller
         return view('content.messages.inbox.v_inbox');
     }
 
-    public function detail(Request $request)
+    public function detail($id)
     {
         // dd($_GET['number']);
-        $message = Message::where('number', $_GET['number'])->first();
+        // dd(Helper::encode(1));
+        $message = Message::where('code', $id)->first();
+        // dd($message['number']);
+        // dd(str_slug($message['number']));
         $position = [];
         foreach (Helper::job_array() as $key => $pst) {
             $position[] = '"' . $key . '"';
@@ -80,6 +83,8 @@ class InboxController extends Controller
         if (!empty($request->original_file)) {
             $data = ImageHelper::upload_drive($request, 'original_file', 'document', $data);
         }
+
+        $data['code'] = str_slug($data['number']) . '-' . Helper::str_random(5);
         Message::updateOrCreate(
             ['id' => $request->id],
             $data
@@ -92,10 +97,19 @@ class InboxController extends Controller
 
     public function save(Request $request)
     {
-        // dd($request);
-        $result = Message::where('id', $request->pk)->update([$request->name => $request->value]);
+        Message::where('id', $request->pk)->update([$request->name => $request->value]);
         return response()->json([
             'message' => 'Pesan berhasil terkirim',
+            'status' => true,
+        ], 200);
+    }
+
+    public function delete(Request $request)
+    {
+        $message = Message::find($request->id);
+        $message->update(array('status' => 0));
+        return response()->json([
+            'message' => 'Inbox berhasil dihapus',
             'status' => true,
         ], 200);
     }
