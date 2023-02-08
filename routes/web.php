@@ -7,6 +7,7 @@ use App\Http\Controllers\DispositionController;
 use App\Http\Controllers\InboxController;
 use App\Http\Controllers\InstructionController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\OutboxController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\TemplateLetterController;
@@ -64,8 +65,12 @@ Route::middleware('auth:admin')->group(function () {
                 Route::post('save-detail', [InboxController::class, 'save'])->name('save');
                 Route::get('delete', [InboxController::class, 'delete'])->name('delete');
                 Route::prefix('dispositions')->name('disposition.')->group(function () {
+                    Route::post('create', [DispositionController::class, 'store'])->name('store');
                     Route::get('message/{code}', [DispositionController::class, 'create'])->name('create');
                 });
+            });
+            Route::prefix('outbox')->name('outbox.')->group(function () {
+                Route::get('/', [OutboxController::class, 'inbox'])->name('page');
             });
             // Route::get('/', [MessageController::class, 'inbox'])->name('inbox');
             // Route::post('/', [MessageController::class, 'store'])->name('store');

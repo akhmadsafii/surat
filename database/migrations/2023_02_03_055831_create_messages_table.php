@@ -23,7 +23,10 @@ return new class extends Migration
             $table->string('number');
             $table->date('date');
             $table->string('from');
+            $table->integer('from_user')->nullable();
+            $table->string('from_position')->nullable();
             $table->text('address_sender')->nullable();
+            $table->enum('category', ['in', 'out']);
             $table->enum('classification', ['eksternal', 'internal']);
             $table->string('to_user')->nullable();  //opsional
             $table->string('to_position')->nullable(); //opsional
@@ -37,7 +40,8 @@ return new class extends Migration
             $table->string('original_file')->nullable();
             $table->integer('ttd')->nullable();
             $table->integer('verificator')->nullable();
-            $table->tinyInteger('status')->default(1);
+            $table->tinyInteger('status')->default(3);
+            $table->tinyInteger('status_disposition')->default(0);
             $table->timestamps();
         });
     }

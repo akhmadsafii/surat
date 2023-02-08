@@ -64,6 +64,7 @@
             <div class="m-portlet__body">
                 <div class="row">
                     <div class="col-md-6">
+                        <input type="hidden" name="id_message" value="{{ $message['id'] }}">
                         <div class="form-group m-form__group">
                             <label for="exampleInputEmail1">Tanggal Disposisi</label>
                             <div class="input-group date">
@@ -81,7 +82,7 @@
                     <div class="col-md-6">
                         <div class="form-group m-form__group">
                             <label for="exampleInputEmail1">Penerima</label>
-                            <select name="urgency_letter" id="urgency_letter"
+                            <select name="received_position[]" id="received_position"
                                 class="form-control m-bootstrap-select m_selectpicker" multiple data-actions-box="true">
                                 @foreach (Helper::job_array() as $key => $job)
                                     <option value="{{ $key }}">{{ $job }}</option>
@@ -97,7 +98,7 @@
                         @if (!$instructions->isEmpty())
                             @foreach ($instructions as $ins)
                                 <label class="m-checkbox">
-                                    <input type="checkbox" name="id_instruction[]"> {{ $ins['name'] }}
+                                    <input type="checkbox" name="id_instruction[]" value="{{ $ins['id'] }}"> {{ $ins['name'] }}
                                     <span></span>
                                 </label>
                             @endforeach
@@ -172,16 +173,13 @@
                     $('#btnSubmit').addClass('m-loader m-loader--light m-loader--right');
                     $('#btnSubmit').attr("disabled", true);
                     $.ajax({
-                        url: url,
+                        url: '{{ route('admin.message.inbox.disposition.store') }}',
                         method: "POST",
                         data: $(this).serialize(),
                         dataType: "json",
                         success: function(data) {
-                            $(id_form).trigger("reset");
-                            $(modal).modal('hide');
-                            $('.datatable').dataTable().fnDraw(false);
-                            $(btnSubmit).removeClass('m-loader m-loader--light m-loader--right');
-                            $(btnSubmit).attr("disabled", false);
+                            toastr.success(data.message, "Berhasil");
+                            window.location.href = "{{ route('admin.message.inbox.page')}}";
                         },
                         error: function(data) {
                             const res = data.responseJSON;

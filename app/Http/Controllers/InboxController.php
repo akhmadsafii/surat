@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Helpers\DateHelper;
 use App\Helpers\Helper;
 use App\Helpers\ImageHelper;
+use App\Helpers\StatusHelper;
 use App\Models\Message;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
 
 class InboxController extends Controller
@@ -15,27 +17,27 @@ class InboxController extends Controller
     public function inbox(Request $request)
     {
         session()->put('title', 'Surat Masuk');
-        $messages = Message::query();
+        $messages = Message::where('category', 'in')->get();
         if ($request->ajax()) {
             return DataTables::of($messages)->addIndexColumn()
-                ->addColumn('status', function ($row) {
-                    return '<span class="m--font-bold m--font-primary">Retail</span>';
+                ->editColumn('status', function ($row) {
+                    return '<a class="text-dark" href="' . route('admin.message.inbox.detail', $row['code']) . '"><span class="m--font-bold m--font-' . StatusHelper::messages($row['status'])['class'] . '">' . StatusHelper::messages($row['status'])['message'] . '</span></a>';
                 })
                 ->editColumn('regard', function ($message) {
-                    return '<a href="' . route('admin.message.inbox.detail', $message['code']) . '"><b>' . $message['regard'] . '</b><br><small>' . $message['category'] . '</small></a>';
+                    return '<a class="text-dark" href="' . route('admin.message.inbox.detail', $message['code']) . '"><b>' . $message['regard'] . '</b><br><small>' . $message['nature_letter'] . '</small></a>';
                 })
                 ->editColumn('from', function ($message) {
-                    return '<a href="' . route('admin.message.inbox.detail', $message['code']) . '">' . $message['from'] . '</a>';
+                    return '<a class="text-dark" href="' . route('admin.message.inbox.detail', $message['code']) . '">' . $message['from'] . '</a>';
                 })
                 ->addColumn('received', function ($message) {
                     $user = User::where([
                         ['position', $message['to_position']],
                         ['status', '!=', 0],
                     ])->first();
-                    return '<a href="' . route('admin.message.inbox.detail', $message['code']) . '"><b>' . Helper::get_job($message['to_position']) . '</b><br><small>' . $user['name'] . '</small></a>';
+                    return '<a class="text-dark" href="' . route('admin.message.inbox.detail', $message['code']) . '"><b>' . Helper::get_job($message['to_position']) . '</b><br><small>' . $user['name'] . '</small></a>';
                 })
                 ->editColumn('date', function ($message) {
-                    return DateHelper::getTanggal($message['date']);
+                    return '<a class="text-dark" href="' . route('admin.message.inbox.detail', $message['code']) . '">' . DateHelper::getTanggal($message['date']) . '</a>';
                 })
                 ->rawColumns(['status', 'regard', 'date', 'from', 'received'])
                 ->make(true);
@@ -85,6 +87,18 @@ class InboxController extends Controller
         }
 
         $data['code'] = str_slug($data['number']) . '-' . Helper::str_random(5);
+        $data['status'] = 2;
+        $data['status_disposition'] = 0;
+        $data['category'] = 'in';
+        if (Auth::guard('admin')->check()) {
+            $data['from_user'] = Auth::guard('admin')->user()->id;
+            $data['from_position'] = 'admin';
+        }
+        if (Auth::guard('user')->check()) {
+            $data['from_user'] = Auth::guard('user')->user()->id;
+            $data['from_position'] = Auth::guard('user')->user()->position;
+        }
+
         Message::updateOrCreate(
             ['id' => $request->id],
             $data

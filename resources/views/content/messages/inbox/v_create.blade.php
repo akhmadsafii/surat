@@ -106,7 +106,6 @@
                 <div class="form-group m-form__group">
                     <label for="exampleInputEmail1">Isi</label>
                     <textarea name="content" id="content" class="form-control summernote"></textarea>
-                    {{-- <div class="summernote" id="m_summernote_1"></div> --}}
                 </div>
                 
                 <div class="row">
