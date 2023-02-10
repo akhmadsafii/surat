@@ -155,7 +155,7 @@
                                 class="form-group my-2 w-100">
                         </div>
                     </div>
-                    <input type="text" name="action" id="action" value="send">
+                    <input type="hidden" name="action" id="action" value="send">
                     <div class="col-md-3">
                         <div class="form-group m-form__group">
                             <label for="exampleSelect1">Dokumen Pendukung</label>

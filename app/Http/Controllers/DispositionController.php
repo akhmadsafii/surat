@@ -9,6 +9,11 @@ use Illuminate\Http\Request;
 
 class DispositionController extends Controller
 {
+    public function index(Request $request)
+    {
+        dd('disposisi');
+    }
+
     public function create($code)
     {
         session()->put('title', 'Kirim Disposisi');

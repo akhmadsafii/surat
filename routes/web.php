@@ -82,6 +82,7 @@ Route::middleware('auth:admin')->group(function () {
                 Route::post('save-detail', [InboxController::class, 'save'])->name('save');
                 Route::get('delete', [InboxController::class, 'delete'])->name('delete');
                 Route::prefix('dispositions')->name('disposition.')->group(function () {
+                    Route::get('/', [DispositionController::class, 'index'])->name('page');
                     Route::post('create', [DispositionController::class, 'store'])->name('store');
                     Route::get('message/{code}', [DispositionController::class, 'create'])->name('create');
                 });
@@ -90,8 +91,11 @@ Route::middleware('auth:admin')->group(function () {
                 Route::get('/', [OutboxController::class, 'outbox'])->name('page');
                 Route::get('create', [OutboxController::class, 'create'])->name('create');
             });
-            // Route::get('/', [MessageController::class, 'inbox'])->name('inbox');
-            // Route::post('/', [MessageController::class, 'store'])->name('store');
+            Route::prefix('draft')->name('draft.')->group(function () {
+                Route::get('/', [OutboxController::class, 'draft'])->name('page');
+                Route::get('create', [OutboxController::class, 'create'])->name('create');
+            });
+            
         });
 
         Route::prefix('template-letters')->name('template_letter.')->group(function () {
