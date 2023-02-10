@@ -16,7 +16,7 @@
                     <span class="m-portlet__head-icon m--hide">
                         <i class="la la-gear"></i>
                     </span>
-                    <h3 class="m-form__heading-title">Tambah Surat Masuk:</h3>
+                    <h3 class="m-form__heading-title">{{ session('title') }}</h3>
                 </div>
             </div>
         </div>
@@ -38,14 +38,19 @@
                             <label for="exampleInputEmail1">Jenis Surat</label>
                             <select name="type" id="type" class="form-control">
                                 <option value="" selected disabled>Pilih Jenis Surat</option>
-                                <option value="skl">Surat Keterangan Lulus</option>
-                                <option value="skp">Surat Pengumuman</option>
+                                @foreach ($type as $tp)
+                                    <option value="{{ $tp['id'] }}">{{ $tp['code_type'] . ' - ' . $tp['name'] }}</option>
+                                @endforeach
                             </select>
                         </div>
-                        
+
                         <div class="form-group m-form__group">
                             <label for="exampleInputEmail1">Nomor Surat</label>
-                            <input type="text" class="form-control" name="number">
+                            <input type="text" class="form-control" name="number"
+                                {{ request()->segment(3) == 'outbox' ? 'readonly' : '' }}>
+                            @if (request()->segment(3) == 'outbox')
+                                <span class="m-form__help">akan terisi otomatis</span>
+                            @endif
                         </div>
                         <div class="form-group m-form__group">
                             <label for="exampleInputEmail1">Perihal</label>
@@ -98,7 +103,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="form-group m-form__group">
                     <label for="exampleInputEmail1">Alamat Pengirim</label>
                     <textarea name="address_sender" id="address_sender" class="form-control" rows="3"></textarea>
@@ -107,7 +112,39 @@
                     <label for="exampleInputEmail1">Isi</label>
                     <textarea name="content" id="content" class="form-control summernote"></textarea>
                 </div>
-                
+                @if (request()->segment(3) == 'outbox')
+                    <input type="hidden" name="category" value="out">
+                    <input type="hidden" name="status" value="3">
+                    <div class="row pb-4">
+                        <div class="col-md-6">
+                            <div class="form-group m-form__group">
+                                <label for="exampleInputEmail1">Verifikator</label>
+                                <select name="verificator" id="verificator" class="form-control">
+                                    <option value="" selected disabled>Pilih Verifikator</option>
+                                    @foreach (Helper::job_array() as $key => $job)
+                                        <option value="{{ $key }}">{{ $job }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group m-form__group">
+                                <label for="exampleInputEmail1">Petanda Tangan</label>
+                                <select name="ttd" id="ttd" class="form-control">
+                                    <option value="" selected disabled>Pilih Petanda Tangan</option>
+                                    @foreach (Helper::ttd_array() as $key => $job)
+                                        <option value="{{ $key }}">{{ $job }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                @else
+                    <input type="hidden" name="category" value="in">
+                    <input type="hidden" name="status" value="2">
+                @endif
+
+
                 <div class="row">
                     <div class="col-md-3">
                         <div class="form-group m-form__group">
@@ -118,6 +155,7 @@
                                 class="form-group my-2 w-100">
                         </div>
                     </div>
+                    <input type="text" name="action" id="action" value="send">
                     <div class="col-md-3">
                         <div class="form-group m-form__group">
                             <label for="exampleSelect1">Dokumen Pendukung</label>
@@ -149,7 +187,8 @@
             </div>
             <div class="m-portlet__foot m-portlet__foot--fit">
                 <div class="m-form__actions m-form__actions--right">
-                    <button type="submit" class="btn btn-primary" id="btnSubmit">Submit</button>
+                    <a href="javascript:void(0)" onclick="processDraft()" class="mx-2">Simpan sebagai draft</a>
+                    <button type="button" class="btn btn-primary" onclick="processSubmit()">Submit</button>
                     <button type="reset" class="btn btn-secondary">Cancel</button>
                 </div>
             </div>
@@ -168,8 +207,6 @@
 
                 $('body').on('submit', '#formSubmit', function(e) {
                     e.preventDefault();
-                    $('#btnSubmit').addClass('m-loader m-loader--light m-loader--right');
-                    $('#btnSubmit').attr("disabled", true);
                     var formData = new FormData(this);
                     $.ajax({
                         type: "POST",
@@ -180,18 +217,30 @@
                         processData: false,
                         success: (data) => {
                             toastr.success(data.message, "Berhasil");
-                            window.location.href = "{{ route('admin.message.inbox.page')}}";
+                            if ('{{ request()->segment(3) == 'outbox' }}') {
+                                window.location.href = "{{ route('admin.message.outbox.page') }}";
+                            } else {
+                                window.location.href = "{{ route('admin.message.inbox.page') }}";
+                            }
                         },
                         error: function(data) {
                             const res = data.responseJSON;
                             toastr.error(res.message, "GAGAL");
-                            $('#btnSubmit').removeClass('m-loader m-loader--light m-loader--right');
-                            $('#btnSubmit').attr("disabled", false);
                         }
                     });
                 });
 
             })
+
+            function processSubmit() {
+                $('#action').val('send');
+                $('#formSubmit').submit();
+            }
+
+            function processDraft() {
+                $('#action').val('draft');
+                $('#formSubmit').submit();
+            }
 
             function readURL(input, id) {
                 if (input.files[0]) {

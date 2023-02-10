@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TemplateLetter extends Model
+class Template extends Model
 {
     use HasFactory;
-    protected $table = 'template_letters';
+    protected $table = 'templates';
 
     protected $guarded = [];
 }

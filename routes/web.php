@@ -10,7 +10,9 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\OutboxController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\TemplateController;
 use App\Http\Controllers\TemplateLetterController;
+use App\Http\Controllers\TypeController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -37,6 +39,21 @@ Route::middleware('auth:admin')->group(function () {
             Route::get('/', [SettingController::class, 'index'])->name('page');
             Route::post('/', [SettingController::class, 'store'])->name('store');
             Route::get('reset', [SettingController::class, 'reset'])->name('reset');
+        });
+
+        Route::prefix('types')->name('type.')->group(function () {
+            Route::get('/', [TypeController::class, 'index'])->name('page');
+            Route::post('/', [TypeController::class, 'store'])->name('store');
+            Route::get('more/{code}', [TypeController::class, 'more'])->name('more');
+            Route::get('detail', [TypeController::class, 'detail'])->name('detail');
+            Route::get('delete', [TypeController::class, 'delete'])->name('delete');
+        });
+        
+        Route::prefix('templates')->name('template.')->group(function () {
+            Route::get('/', [TemplateController::class, 'index'])->name('page');
+            Route::post('/', [TemplateController::class, 'store'])->name('store');
+            // Route::get('detail', [TypeController::class, 'detail'])->name('detail');
+            Route::get('delete', [TemplateController::class, 'delete'])->name('delete');
         });
 
         Route::prefix('profiles')->name('profile.')->group(function () {
@@ -70,7 +87,8 @@ Route::middleware('auth:admin')->group(function () {
                 });
             });
             Route::prefix('outbox')->name('outbox.')->group(function () {
-                Route::get('/', [OutboxController::class, 'inbox'])->name('page');
+                Route::get('/', [OutboxController::class, 'outbox'])->name('page');
+                Route::get('create', [OutboxController::class, 'create'])->name('create');
             });
             // Route::get('/', [MessageController::class, 'inbox'])->name('inbox');
             // Route::post('/', [MessageController::class, 'store'])->name('store');

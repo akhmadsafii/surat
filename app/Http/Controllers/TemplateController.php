@@ -3,16 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Helper;
-use App\Models\Instruction;
+use App\Models\Template;
 use Illuminate\Http\Request;
 
-class InstructionController extends Controller
+class TemplateController extends Controller
 {
     public function index(Request $request)
     {
-        session()->put('title', 'Instruksi Disposisi Surat');
-        $instruction = Instruction::where('status', '!=', 0)->get();
-        return view('content.instruction.v_instruction', compact('instruction'));
+        session()->put('title', 'Template Surat');
+        $templates = Template::where('status', '!=', 0)->get();
+        return view('content.templates.v_template', compact('templates'));
     }
 
     public function store(Request $request)
@@ -27,12 +27,23 @@ class InstructionController extends Controller
         } else {
             $data['code'] = str_slug($data['name']) . '-' . Helper::str_random(5);
         }
-        Instruction::updateOrCreate(
+        Template::updateOrCreate(
             ['id' => $request->id],
             $data
         );
         return response()->json([
-            'message' => 'Instruksi berhasil disimpan',
+            'message' => 'Template berhasil disimpan',
+            'status' => true,
+        ], 200);
+    }
+
+    public function delete(Request $request)
+    {
+        // dd($request);
+        $id = $request->id;
+        Template::whereIn('id', $id)->update(['status' => 0]);
+        return response()->json([
+            'message' => 'Template berhasil dihapus',
             'status' => true,
         ], 200);
     }

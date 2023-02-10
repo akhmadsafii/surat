@@ -48,6 +48,16 @@ class Helper
         return $jobs;
     }
 
+    public static function ttd_array()
+    {
+        $jobs = [
+            'kepsek' => 'Kepala Sekolah',
+            'sekretaris' => 'Sekretaris Sekolah',
+            'waka' => 'WAKA Sekolah'
+        ];
+        return $jobs;
+    }
+
     public static function get_job($param)
     {
         switch ($param) {
@@ -76,5 +86,32 @@ class Helper
                 return 'Error';
                 break;
         }
+    }
+
+    public static function getInital($param)
+    {
+        $acronym = preg_split("/[\s,_-]+/", $param);
+        $result = "";
+
+        foreach ($acronym as $w) {
+            $result .= mb_substr($w, 0, 1);
+        }
+        return strtoupper($result);
+    }
+
+    public static function getRomawi($param)
+    {
+        $map = array('M' => 1000, 'CM' => 900, 'D' => 500, 'CD' => 400, 'C' => 100, 'XC' => 90, 'L' => 50, 'XL' => 40, 'X' => 10, 'IX' => 9, 'V' => 5, 'IV' => 4, 'I' => 1);
+        $returnValue = '';
+        while ($param > 0) {
+            foreach ($map as $roman => $int) {
+                if ($param >= $int) {
+                    $param -= $int;
+                    $returnValue .= $roman;
+                    break;
+                }
+            }
+        }
+        return $returnValue;
     }
 }

@@ -52,7 +52,7 @@
                         </li>
                         <li class="m-portlet__nav-item"></li>
                         <li class="m-portlet__nav-item">
-                            <a href="{{ route('admin.message.inbox.create') }}"
+                            <a href="{{ route('admin.message.outbox.create') }}"
                                 class="btn btn-success m-btn m-btn--custom m-btn--icon m-btn--air">
                                 <span>
                                     <i class="la la-plus"></i>
@@ -116,6 +116,9 @@
                     }, {
                         data: 'received',
                         name: 'received',
+                    }, {
+                        data: 'classification',
+                        name: 'classification',
                     }, {
                         data: 'status',
                         name: 'status',

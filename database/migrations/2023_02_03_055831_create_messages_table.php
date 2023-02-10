@@ -38,8 +38,8 @@ return new class extends Migration
             $table->string('doc_2')->nullable();
             $table->string('doc_3')->nullable();
             $table->string('original_file')->nullable();
-            $table->integer('ttd')->nullable();
-            $table->integer('verificator')->nullable();
+            $table->string('ttd')->nullable();
+            $table->string('verificator')->nullable();
             $table->tinyInteger('status')->default(3);
             $table->tinyInteger('status_disposition')->default(0);
             $table->timestamps();

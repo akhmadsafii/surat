@@ -13,13 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('template_letters', function (Blueprint $table) {
+        Schema::create('templates', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('code')->nullable();
-            $table->string('initial');
-            $table->string('name');
-            $table->tinyInteger('status_skl')->default(0);
-            $table->tinyInteger('status_skp')->default(0);
+            $table->string('name')->nullable();
             $table->tinyInteger('status')->default(1);
             $table->timestamps();
         });
@@ -32,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('template_letters');
+        Schema::dropIfExists('templates');
     }
 };
