@@ -16,9 +16,11 @@ return new class extends Migration
         Schema::create('chats', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('code')->nullable();
-            $table->bigInteger('id_disposition');
+            $table->bigInteger('id_message');
             $table->text('chat');
             $table->bigInteger('id_user');
+            $table->string('position');
+            $table->tinyInteger('status_preview')->default(1);
             $table->tinyInteger('status')->default(1);
             $table->timestamps();
         });

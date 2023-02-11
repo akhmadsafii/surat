@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DispositionController;
 use App\Http\Controllers\InboxController;
@@ -48,7 +49,7 @@ Route::middleware('auth:admin')->group(function () {
             Route::get('detail', [TypeController::class, 'detail'])->name('detail');
             Route::get('delete', [TypeController::class, 'delete'])->name('delete');
         });
-        
+
         Route::prefix('templates')->name('template.')->group(function () {
             Route::get('/', [TemplateController::class, 'index'])->name('page');
             Route::post('/', [TemplateController::class, 'store'])->name('store');
@@ -82,9 +83,11 @@ Route::middleware('auth:admin')->group(function () {
                 Route::post('save-detail', [InboxController::class, 'save'])->name('save');
                 Route::get('delete', [InboxController::class, 'delete'])->name('delete');
                 Route::prefix('dispositions')->name('disposition.')->group(function () {
-                    Route::get('/', [DispositionController::class, 'index'])->name('page');
+                    Route::get('in', [DispositionController::class, 'in'])->name('in');
+                    Route::get('out', [DispositionController::class, 'out'])->name('out');
                     Route::post('create', [DispositionController::class, 'store'])->name('store');
                     Route::get('message/{code}', [DispositionController::class, 'create'])->name('create');
+                    Route::get('detail/{code}', [DispositionController::class, 'detail'])->name('detail');
                 });
             });
             Route::prefix('outbox')->name('outbox.')->group(function () {
@@ -95,7 +98,9 @@ Route::middleware('auth:admin')->group(function () {
                 Route::get('/', [OutboxController::class, 'draft'])->name('page');
                 Route::get('create', [OutboxController::class, 'create'])->name('create');
             });
-            
+            Route::prefix('chats')->name('chat.')->group(function () {
+                Route::post('/', [ChatController::class, 'store'])->name('store');
+            });
         });
 
         Route::prefix('template-letters')->name('template_letter.')->group(function () {

@@ -38,12 +38,12 @@
                 <ul class="m-menu__subnav">
                     <li class="m-menu__item  m-menu__item--parent" aria-haspopup="true"><span class="m-menu__link"><span
                                 class="m-menu__link-text">Disposisi</span></span></li>
-                    <li class="m-menu__item  m-menu__item--active" aria-haspopup="true"><a href="inner.html"
-                            class="m-menu__link "><i
+                    <li class="m-menu__item  m-menu__item--active" aria-haspopup="true"><a
+                            href="{{ route('admin.message.inbox.disposition.in') }}" class="m-menu__link "><i
                                 class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span
                                 class="m-menu__link-text">Disposisi Masuk</span></a></li>
                     <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a
-                            href="{{ route('admin.manage.page') }}" class="m-menu__link "><i
+                            href="{{ route('admin.message.inbox.disposition.out') }}" class="m-menu__link "><i
                                 class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span
                                 class="m-menu__link-text">Disposisi Keluar</span></a></li>
                 </ul>

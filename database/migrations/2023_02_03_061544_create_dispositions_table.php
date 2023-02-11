@@ -19,10 +19,12 @@ return new class extends Migration
             $table->date('date')->nullable();
             $table->bigInteger('id_message');
             $table->string('id_instruction')->nullable();
-            $table->string('received')->nullable();
+            $table->integer('received')->nullable();
+            $table->integer('from')->nullable();
             $table->text('other_instruction')->nullable();
             $table->enum('nature', ['penting', 'rahasia', 'biasa', 'segera', 'sangat_segera']);
             $table->string('received_position')->nullable(); //waka waka punya turunan
+            $table->string('from_position')->nullable(); //waka waka punya turunan
             $table->date('max_date')->nullable();
             $table->tinyInteger('status')->default(1);
             $table->timestamps();
