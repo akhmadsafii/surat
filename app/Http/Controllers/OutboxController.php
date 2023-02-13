@@ -16,11 +16,14 @@ class OutboxController extends Controller
     public function outbox(Request $request)
     {
         session()->put('title', 'Surat Keluar');
+        // dd(session('position'));
         $messages = Message::where([
-            ['from_position', 'admin'],
+            ['from_position', session('position')],
+            ['from_user', session('id')],
             ['status', '!=', 4],
             ['category', 'out'],
         ]);
+        // dd($messages);
         if ($request->ajax()) {
             return DataTables::of($messages)->addIndexColumn()
                 ->addColumn('status', function ($row) {

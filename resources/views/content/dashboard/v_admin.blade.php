@@ -71,7 +71,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-xl-3 col-sm-4 col-12">
+        <div class="col-xl-6 col-sm-6 col-12">
             <div class="card my-1">
                 <div class="card-body d-flex">
                     <div class="description">
@@ -86,7 +86,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-3 col-sm-4 col-12">
+        <div class="col-xl-6 col-sm-6 col-12">
             <div class="card my-1">
                 <div class="card-body d-flex">
                     <div class="description">
@@ -94,36 +94,6 @@
                         <p class="card-text">Total Surat yang harus diverifikasi bulan ini.</p>
                     </div>
                     <h1 style="font-size: 3rem" class="my-auto">6</h1>
-
-                </div>
-                <div class="card-footer text-muted">
-                    <a href="">Lihat Detail</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-sm-4 col-12">
-            <div class="card my-1">
-                <div class="card-body d-flex">
-                    <div class="description">
-                        <h5 class="card-title">Tanda Tangan</h5>
-                        <p class="card-text">Total Surat yang harus ditanda tangan bulan ini.</p>
-                    </div>
-                    <h1 style="font-size: 3rem" class="my-auto">1</h1>
-
-                </div>
-                <div class="card-footer text-muted">
-                    <a href="">Lihat Detail</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-sm-4 col-12">
-            <div class="card my-1">
-                <div class="card-body d-flex">
-                    <div class="description">
-                        <h5 class="card-title">Tembusan</h5>
-                        <p class="card-text">Total Surat yang harus ditanda tangan bulan ini.</p>
-                    </div>
-                    <h1 style="font-size: 3rem" class="my-auto">2</h1>
 
                 </div>
                 <div class="card-footer text-muted">

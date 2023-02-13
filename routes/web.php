@@ -27,7 +27,8 @@ Route::prefix('auth')->name('auth.')->group(function () {
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 });
 
-Route::middleware('auth:admin')->group(function () {
+Route::middleware('auth:user,admin')->group(function () {
+    // Route::middleware('auth:admin')->group(function () {
     Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('dashboard', [DashboardController::class, 'admin'])->name('dashboard');
         Route::prefix('manages')->name('manage.')->group(function () {
@@ -100,6 +101,7 @@ Route::middleware('auth:admin')->group(function () {
             });
             Route::prefix('chats')->name('chat.')->group(function () {
                 Route::post('/', [ChatController::class, 'store'])->name('store');
+                Route::get('delete', [ChatController::class, 'delete'])->name('delete');
             });
         });
 
@@ -112,12 +114,12 @@ Route::middleware('auth:admin')->group(function () {
     });
 });
 
-Route::prefix('users')->name('user.')->group(function () {
-    Route::get('dashboard', [DashboardController::class, 'user'])->name('dashboard');
+// Route::prefix('users')->name('user.')->group(function () {
+//     Route::get('dashboard', [DashboardController::class, 'user'])->name('dashboard');
 
-    // Route::prefix('admins')->name('admin.')->group(function () {
-    //     Route::get('/', [AdminController::class, 'index'])->name('index');
-    //     Route::post('/', [AdminController::class, 'store'])->name('store');
-    //     Route::get('create', [AdminController::class, 'create'])->name('create');
-    // });
-})->middleware('auth:user');
+//     // Route::prefix('admins')->name('admin.')->group(function () {
+//     //     Route::get('/', [AdminController::class, 'index'])->name('index');
+//     //     Route::post('/', [AdminController::class, 'store'])->name('store');
+//     //     Route::get('create', [AdminController::class, 'create'])->name('create');
+//     // });
+// })->middleware('auth:user');

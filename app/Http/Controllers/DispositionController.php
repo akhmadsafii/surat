@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Helpers\DateHelper;
 use App\Helpers\Helper;
 use App\Helpers\StatusHelper;
+use App\Models\Admin;
 use App\Models\Chat;
 use App\Models\Disposition;
 use App\Models\Instruction;
 use App\Models\Message;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -149,7 +151,25 @@ class DispositionController extends Controller
             $instruction[] = $instr['name'];
         }
         $disposition['instruction'] = $instruction;
-        $chats = Chat::where('id_message', $message['id'])->get();
+        $chat = Chat::where([
+            ['id_message', $message['id']],
+            ['status', '!=', 0]
+        ])->orderBy('id', 'DESC')->get();
+        $chats = [];
+        foreach ($chat as $ct) {
+            if ($ct['position'] == 'admin') {
+                $user = Admin::find($ct['id_user']);
+            } else {
+                $user = User::find($ct['id_user']);
+            }
+            $chats[] = [
+                'image' => $user['file'] ? asset($user['file']) : asset('asset/img/user4.jpg'),
+                'name' => $user['name'],
+                'time' => $ct['created_at']->diffForHumans(),
+                'id' => $ct['id'],
+                'chat' => $ct['chat'],
+            ];
+        }
         // dd($chats);
         return view('content.messages.inbox.dispositions.v_detail_disposition', compact('message', 'disposition', 'chats'));
     }

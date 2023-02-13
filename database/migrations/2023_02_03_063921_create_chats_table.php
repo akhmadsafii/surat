@@ -17,7 +17,7 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->string('code')->nullable();
             $table->bigInteger('id_message');
-            $table->text('chat');
+            $table->longText('chat');
             $table->bigInteger('id_user');
             $table->string('position');
             $table->tinyInteger('status_preview')->default(1);

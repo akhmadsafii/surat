@@ -18,7 +18,11 @@ class InboxController extends Controller
     public function inbox(Request $request)
     {
         session()->put('title', 'Surat Masuk');
-        $messages = Message::where('category', 'in')->get();
+        // $messages = Message::where('category', 'in')->get();
+        $messages = Message::where([
+            ['to_position', session('position')],
+            // ['category', 'in'],
+        ]);
         if ($request->ajax()) {
             return DataTables::of($messages)->addIndexColumn()
                 ->editColumn('status', function ($row) {
@@ -90,10 +94,10 @@ class InboxController extends Controller
             $data['no_agenda'] = $no_agenda;
             $code_urgent = Helper::getInital($request['urgency_letter']);
             $type = Type::find($request->type);
-            $data['number'] = $code_urgent . '/' .$type['code_type'].'/'. str_pad($no_agenda, 3, '0', STR_PAD_LEFT) . '/' . Helper::getRomawi(now()->month) . '/' . now()->year;
-            if($request['action'] == 'draft'){
+            $data['number'] = $code_urgent . '/' . $type['code_type'] . '/' . str_pad($no_agenda, 3, '0', STR_PAD_LEFT) . '/' . Helper::getRomawi(now()->month) . '/' . now()->year;
+            if ($request['action'] == 'draft') {
                 $data['status'] = 4;
-            }else{
+            } else {
                 $data['status'] = 3;
             }
         }

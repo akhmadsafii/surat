@@ -22,21 +22,25 @@
                         <div class="m-stack m-stack--ver m-stack--general m-stack--fluid">
                             <div class="m-stack__item m-stack__item--middle m-brand__logo">
                                 <a href="index.html" class="m-brand__logo-wrapper d-flex">
-                                    <img alt="" src="{{ asset(env('CONFIG_LOGO')) }}" style="height: 52px" class="mr-1" />
-                                    <h2 class="d-inline-flex my-auto ml-1" style="width: max-content;">{{ env('CONFIG_NAME_APPLICATION') }}</h2>
+                                    <img alt="" src="{{ asset(env('CONFIG_LOGO')) }}" style="height: 52px"
+                                        class="mr-1" />
+                                    <h2 class="d-inline-flex my-auto ml-1" style="width: max-content;">
+                                        {{ env('CONFIG_NAME_APPLICATION') }}</h2>
                                 </a>
                             </div>
                             <div class="m-stack__item m-stack__item--middle m-brand__tools">
 
                                 <!-- BEGIN: Responsive Aside Left Menu Toggler -->
-                                <a href="javascript:;" id="m_aside_left_offcanvas_toggle" class="m-brand__icon m-brand__toggler m-brand__toggler--left m--visible-tablet-and-mobile-inline-block">
+                                <a href="javascript:;" id="m_aside_left_offcanvas_toggle"
+                                    class="m-brand__icon m-brand__toggler m-brand__toggler--left m--visible-tablet-and-mobile-inline-block">
                                     <span></span>
                                 </a>
 
                                 <!-- END -->
 
                                 <!-- BEGIN: Topbar Toggler -->
-                                <a id="m_aside_header_topbar_mobile_toggle" href="javascript:;" class="m-brand__icon m--visible-tablet-and-mobile-inline-block">
+                                <a id="m_aside_header_topbar_mobile_toggle" href="javascript:;"
+                                    class="m-brand__icon m--visible-tablet-and-mobile-inline-block">
                                     <i class="flaticon-more"></i>
                                 </a>
 
@@ -338,8 +342,17 @@
                                                 <div class="m-dropdown__header m--align-center">
                                                     <div class="m-card-user m-card-user--skin-light">
                                                         <div class="m-card-user__pic">
-                                                            <img src="{{ Auth::guard('admin')->user()->name ? asset(Auth::guard('admin')->user()->file) : asset('asset/img/user4.jpg') }}"
-                                                                class="m--img-rounded m--marginless" alt="" />
+                                                            @if (Auth::guard('admin')->check())
+                                                                <img src="{{ Auth::guard('admin')->user()->name ? asset(Auth::guard('admin')->user()->file) : asset('asset/img/user4.jpg') }}"
+                                                                    class="m--img-rounded m--marginless"
+                                                                    alt="" />
+                                                            @endif
+                                                            @if (Auth::guard('user')->check())
+                                                                <img src="{{ Auth::guard('user')->user()->name ? asset(Auth::guard('user')->user()->file) : asset('asset/img/user4.jpg') }}"
+                                                                    class="m--img-rounded m--marginless"
+                                                                    alt="" />
+                                                            @endif
+
                                                         </div>
                                                         <div class="m-card-user__details">
                                                             <span class="m-card-user__name m--font-weight-500">Mark

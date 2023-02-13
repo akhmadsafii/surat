@@ -15,7 +15,7 @@ class StatusHelper
                 break;
             case 2:
                 return [
-                    'message' => 'Proses',
+                    'message' => 'Belum dibaca',
                     'class' => 'info',
                 ];
                 break;
