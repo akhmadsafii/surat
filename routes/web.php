@@ -77,7 +77,8 @@ Route::middleware('auth:user,admin')->group(function () {
 
         Route::prefix('messages')->name('message.')->group(function () {
             Route::prefix('inbox')->name('inbox.')->group(function () {
-                Route::get('/', [InboxController::class, 'inbox'])->name('page');
+                Route::get('/', [InboxController::class, 'index'])->name('page');
+                // Route::get('internal', [InboxController::class, 'internal'])->name('internal');
                 Route::get('detail/{id}', [InboxController::class, 'detail'])->name('detail');
                 Route::get('create', [InboxController::class, 'create'])->name('create');
                 Route::post('save', [InboxController::class, 'store'])->name('store');

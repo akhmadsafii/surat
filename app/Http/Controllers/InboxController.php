@@ -15,13 +15,13 @@ use Yajra\DataTables\DataTables;
 
 class InboxController extends Controller
 {
-    public function inbox(Request $request)
+    public function index(Request $request)
     {
+        // dd('internal');
         session()->put('title', 'Surat Masuk');
-        // $messages = Message::where('category', 'in')->get();
         $messages = Message::where([
             ['to_position', session('position')],
-            // ['category', 'in'],
+            ['category', 'out'],
         ]);
         if ($request->ajax()) {
             return DataTables::of($messages)->addIndexColumn()
@@ -47,7 +47,7 @@ class InboxController extends Controller
                 ->rawColumns(['status', 'regard', 'date', 'from', 'received'])
                 ->make(true);
         }
-        return view('content.messages.inbox.v_inbox');
+        return view('content.messages.inbox.v_internal');
     }
 
     public function detail($id)

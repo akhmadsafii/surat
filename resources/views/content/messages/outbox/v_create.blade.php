@@ -39,20 +39,32 @@
                             <select name="type" id="type" class="form-control">
                                 <option value="" selected disabled>Pilih Jenis Surat</option>
                                 @foreach ($type as $tp)
-                                    <option value="{{ $tp['id'] }}">{{ $tp['code_type'] . ' - ' . $tp['name'] }}
-                                    </option>
+                                    <option value="{{ $tp['id'] }}">{{ $tp['code_type'] . ' - ' . $tp['name'] }}</option>
                                 @endforeach
                             </select>
                         </div>
+
                         <div class="form-group m-form__group">
-                            <label for="exampleInputEmail1">Dari</label>
-                            <input type="text" class="form-control" name="from" id="from">
+                            <label for="exampleInputEmail1">Nomor Surat</label>
+                            <input type="text" class="form-control" name="number"
+                                {{ request()->segment(3) == 'outbox' ? 'readonly' : '' }}>
+                            @if (request()->segment(3) == 'outbox')
+                                <span class="m-form__help">akan terisi otomatis</span>
+                            @endif
                         </div>
                         <div class="form-group m-form__group">
                             <label for="exampleInputEmail1">Perihal</label>
                             <input type="text" class="form-control" name="regard" id="regard">
                         </div>
-
+                        <div class="form-group m-form__group">
+                            <label for="exampleInputEmail1">Ditujukan Kepada</label>
+                            <select name="to_position" id="to_position" class="form-control">
+                                <option value="" selected disabled>Pilih Posisi</option>
+                                @foreach (Helper::job_array() as $key => $job)
+                                    <option value="{{ $key }}">{{ $job }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group m-form__group">
@@ -65,23 +77,22 @@
                             </select>
                         </div>
                         <div class="form-group m-form__group">
-                            <label for="exampleInputEmail1">Nomor Surat</label>
-                            <input type="text" class="form-control" name="number">
+                            <label for="exampleInputEmail1">Klasifikasi Surat</label>
+                            <select name="classification" id="classification" class="form-control">
+                                <option value="" selected disabled>Pilih Klasifikasi Surat</option>
+                                <option value="eksternal">Eksternal</option>
+                                <option value="internal">Internal</option>
+                            </select>
                         </div>
                         <div class="form-group m-form__group">
-                            <label for="exampleInputEmail1">Ditujukan Kepada</label>
-                            <select name="to_position" id="to_position" class="form-control">
-                                <option value="" selected disabled>Pilih Posisi</option>
-                                @foreach (Helper::job_array() as $key => $job)
-                                    <option value="{{ $key }}">{{ $job }}</option>
-                                @endforeach
-                            </select>
+                            <label for="exampleInputEmail1">Dari</label>
+                            <input type="text" class="form-control" name="from" id="from">
                         </div>
                         <div class="form-group m-form__group">
                             <label for="exampleInputEmail1">Tanggal Surat</label>
                             <input type="date" class="form-control" name="date" id="date">
                         </div>
-                        {{-- <div class="form-group m-form__group">
+                        <div class="form-group m-form__group">
                             <label for="exampleInputEmail1">Tembusan</label>
                             <select name="copy_of_letter" id="copy_of_letter" class="form-control">
                                 <option value="" selected disabled>Pilih Posisi</option>
@@ -89,7 +100,7 @@
                                     <option value="{{ $key }}">{{ $job }}</option>
                                 @endforeach
                             </select>
-                        </div> --}}
+                        </div>
                     </div>
                 </div>
 
@@ -101,15 +112,39 @@
                     <label for="exampleInputEmail1">Isi</label>
                     <textarea name="content" id="content" class="form-control summernote"></textarea>
                 </div>
-                <div class="form-group m-form__group">
-                    <label for="exampleInputEmail1">Tembusan</label>
-                    <select name="copy_of_letter" id="copy_of_letter" class="form-control">
-                        <option value="" selected disabled>Pilih Posisi</option>
-                        @foreach (Helper::job_array() as $key => $job)
-                            <option value="{{ $key }}">{{ $job }}</option>
-                        @endforeach
-                    </select>
-                </div>
+                @if (request()->segment(3) == 'outbox')
+                    <input type="hidden" name="category" value="out">
+                    <input type="hidden" name="status" value="3">
+                    <div class="row pb-4">
+                        <div class="col-md-6">
+                            <div class="form-group m-form__group">
+                                <label for="exampleInputEmail1">Verifikator</label>
+                                <select name="verificator" id="verificator" class="form-control">
+                                    <option value="" selected disabled>Pilih Verifikator</option>
+                                    @foreach (Helper::job_array() as $key => $job)
+                                        <option value="{{ $key }}">{{ $job }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group m-form__group">
+                                <label for="exampleInputEmail1">Petanda Tangan</label>
+                                <select name="ttd" id="ttd" class="form-control">
+                                    <option value="" selected disabled>Pilih Petanda Tangan</option>
+                                    @foreach (Helper::ttd_array() as $key => $job)
+                                        <option value="{{ $key }}">{{ $job }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                @else
+                    <input type="hidden" name="category" value="in">
+                    <input type="hidden" name="status" value="2">
+                @endif
+
+
                 <div class="row">
                     <div class="col-md-3">
                         <div class="form-group m-form__group">
