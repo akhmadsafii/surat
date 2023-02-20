@@ -79,7 +79,8 @@
                         </div>
                         <div class="form-group m-form__group">
                             <label for="exampleInputEmail1">Tanggal Surat</label>
-                            <input type="date" class="form-control" name="date" id="date">
+                            <input type="text" class="form-control m_datetimepicker_6" name="date" id="date"
+                                readonly="" value="{{ date('Y/m/d') }}">
                         </div>
                         {{-- <div class="form-group m-form__group">
                             <label for="exampleInputEmail1">Tembusan</label>
@@ -110,49 +111,17 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="form-group m-form__group">
-                            <label for="exampleSelect1">Dokumen Pendukung</label>
-                            <input type="file" name="doc_1" class="form-control-file"
-                                onchange="readURL(this, '#doc-pendukung1');">
-                            <img id="doc-pendukung1" src="https://via.placeholder.com/150" alt="Preview"
-                                class="form-group my-2 w-100">
-                        </div>
-                    </div>
-                    <input type="hidden" name="action" id="action" value="send">
-                    <div class="col-md-3">
-                        <div class="form-group m-form__group">
-                            <label for="exampleSelect1">Dokumen Pendukung</label>
-                            <input type="file" name="doc_2" class="form-control-file"
-                                onchange="readURL(this, '#doc-pendukung2');">
-                            <img id="doc-pendukung2" src="https://via.placeholder.com/150" alt="Preview"
-                                class="form-group my-2 w-100">
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group m-form__group">
-                            <label for="exampleSelect1">Dokumen Pendukung</label>
-                            <input type="file" name="doc_3" class="form-control-file"
-                                onchange="readURL(this, '#doc-pendukung3');">
-                            <img id="doc-pendukung3" src="https://via.placeholder.com/150" alt="Preview"
-                                class="form-group my-2 w-100">
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group m-form__group">
-                            <label for="exampleSelect1">Dokumen Asli</label>
-                            <input type="file" name="original_file" class="form-control-file"
-                                onchange="readURL(this, '#doc-asli');">
-                            <img id="doc-asli" src="https://via.placeholder.com/150" alt="Preview"
-                                class="form-group my-2 w-100">
-                        </div>
-                    </div>
+                <div class="form-group m-form__group">
+                    <label for="exampleInputEmail1">Dokumen Pendukung</label>
+                    <input type="file" class="multi" name="doc[]">
+                </div>
+                <div class="form-group m-form__group">
+                    <label for="exampleSelect1">Dokumen Asli</label>
+                    <input type="file" class="multi" name="original_file[]">
                 </div>
             </div>
             <div class="m-portlet__foot m-portlet__foot--fit">
                 <div class="m-form__actions m-form__actions--right">
-                    <a href="javascript:void(0)" onclick="processDraft()" class="mx-2">Simpan sebagai draft</a>
                     <button type="button" class="btn btn-primary" onclick="processSubmit()">Submit</button>
                     <button type="reset" class="btn btn-secondary">Cancel</button>
                 </div>
@@ -161,7 +130,8 @@
     </div>
     @push('scripts')
         @include('package.summernote.summernote_js')
-        @include('component.formImageSubmit')
+        @include('package.datetimepicker.datetimepicker_js')
+        @include('package.uploadfile.uploadfile_js')
         <script>
             $(function() {
                 $.ajaxSetup({
@@ -182,11 +152,7 @@
                         processData: false,
                         success: (data) => {
                             toastr.success(data.message, "Berhasil");
-                            if ('{{ request()->segment(3) == 'outbox' }}') {
-                                window.location.href = "{{ route('admin.message.outbox.page') }}";
-                            } else {
-                                window.location.href = "{{ route('admin.message.inbox.page') }}";
-                            }
+                            window.location.href = "{{ route('admin.message.inbox.page') }}";
                         },
                         error: function(data) {
                             const res = data.responseJSON;
@@ -200,21 +166,6 @@
             function processSubmit() {
                 $('#action').val('send');
                 $('#formSubmit').submit();
-            }
-
-            function processDraft() {
-                $('#action').val('draft');
-                $('#formSubmit').submit();
-            }
-
-            function readURL(input, id) {
-                if (input.files[0]) {
-                    var reader = new FileReader();
-                    reader.onload = function(e) {
-                        $(id).attr('src', e.target.result);
-                    };
-                    reader.readAsDataURL(input.files[0]);
-                }
             }
         </script>
     @endpush

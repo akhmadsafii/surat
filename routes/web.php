@@ -82,8 +82,11 @@ Route::middleware('auth:user,admin')->group(function () {
                 Route::get('detail/{id}', [InboxController::class, 'detail'])->name('detail');
                 Route::get('create', [InboxController::class, 'create'])->name('create');
                 Route::post('save', [InboxController::class, 'store'])->name('store');
+                Route::post('update', [InboxController::class, 'update'])->name('update');
                 Route::post('save-detail', [InboxController::class, 'save'])->name('save');
                 Route::get('delete', [InboxController::class, 'delete'])->name('delete');
+                Route::get('delete-file', [InboxController::class, 'delete_file'])->name('delete_file');
+                Route::get('download/{file}', [InboxController::class, 'download'])->name('download');
                 Route::prefix('dispositions')->name('disposition.')->group(function () {
                     Route::get('in', [DispositionController::class, 'in'])->name('in');
                     Route::get('out', [DispositionController::class, 'out'])->name('out');

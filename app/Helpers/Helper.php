@@ -88,6 +88,36 @@ class Helper
         }
     }
 
+    public static function get_job_key($param)
+    {
+        switch ($param) {
+            case 'Kepala Sekolah':
+                return 'kepsek';
+                break;
+            case 'Kepala Bagian TU':
+                return 'kabag_tu';
+                break;
+            case 'WAKA Sarpras':
+                return 'waka_sarpras';
+                break;
+            case 'WAKA Kesiswaan':
+                return 'waka_kesiswaan';
+                break;
+            case 'WAKA Kurikulum':
+                return 'waka_kurikulum';
+                break;
+            case 'WAKA HUMAS':
+                return 'waka_humas';
+                break;
+            case 'Koordinator BK':
+                return 'bk';
+                break;
+            default:
+                return 'Error';
+                break;
+        }
+    }
+
     public static function getInital($param)
     {
         $acronym = preg_split("/[\s,_-]+/", $param);

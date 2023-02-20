@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('code')->nullable();
             $table->enum('nature_letter', ['biasa', 'terbatas', 'rahasia', 'sangat_rahasia']);
             $table->enum('urgency_letter', ['biasa', 'segera', 'sangat_segera']);
-            $table->string('type');
+            $table->integer('type');
             $table->string('number');
             $table->date('date');
             $table->string('from');
@@ -29,7 +29,7 @@ return new class extends Migration
             $table->text('content')->nullable();
             $table->string('copy_of_letter')->nullable();
             $table->json('doc')->nullable();
-            $table->string('original_file')->nullable();
+            $table->json('original_file')->nullable();
             $table->tinyInteger('status')->default(3);
             $table->tinyInteger('status_disposition')->default(0);
             $table->timestamps();

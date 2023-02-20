@@ -6,6 +6,7 @@ use App\Helpers\DateHelper;
 use App\Helpers\Helper;
 use App\Helpers\ImageHelper;
 use App\Helpers\StatusHelper;
+use App\Models\Inbox;
 use App\Models\Message;
 use App\Models\Type;
 use App\Models\User;
@@ -19,10 +20,8 @@ class InboxController extends Controller
     {
         // dd('internal');
         session()->put('title', 'Surat Masuk');
-        $messages = Message::where([
-            ['to_position', session('position')],
-            ['category', 'out'],
-        ]);
+        $messages = Inbox::all();
+        // dd($messages);
         if ($request->ajax()) {
             return DataTables::of($messages)->addIndexColumn()
                 ->editColumn('status', function ($row) {
@@ -47,19 +46,15 @@ class InboxController extends Controller
                 ->rawColumns(['status', 'regard', 'date', 'from', 'received'])
                 ->make(true);
         }
-        return view('content.messages.inbox.v_internal');
+        return view('content.messages.inbox.v_inbox');
     }
 
     public function detail($id)
     {
-        // dd($_GET['number']);
-        // dd(Helper::encode(1));
-        $message = Message::where('code', $id)->first();
-        // dd($message['number']);
-        // dd(str_slug($message['number']));
+        $message = Inbox::where('code', $id)->first();
         $position = [];
         foreach (Helper::job_array() as $key => $pst) {
-            $position[] = '"' . $key . '"';
+            $position[] = '"' . $pst . '"';
         }
         // dd($position);
         // dd($message);
@@ -75,72 +70,78 @@ class InboxController extends Controller
 
     public function store(Request $request)
     {
+        // dd($request);
         $data = $request->toArray();
-        unset($data['action']);
-
-        if ($request['category'] == 'in') {
-            $data['number'] = $request['number'];
-            $data['status'] = 2;
-        } else {
-            $cek = Message::where([
-                ['type', $request->type],
-                ['category', 'out'],
-            ])->orderBy('id', 'asc')->get()->last();
-            if ($cek == null) {
-                $no_agenda = 1;
-            } else {
-                $no_agenda = $cek['no_agenda'] + 1;
+        $data['status'] = 2;
+        $doc = [];
+        if ($request->hasFile('doc')) {
+            foreach ($request->doc as $key => $document) {
+                $path_doc = ImageHelper::file_multiple_drive($document, 'document');
+                array_push($doc, $path_doc);
             }
-            $data['no_agenda'] = $no_agenda;
-            $code_urgent = Helper::getInital($request['urgency_letter']);
-            $type = Type::find($request->type);
-            $data['number'] = $code_urgent . '/' . $type['code_type'] . '/' . str_pad($no_agenda, 3, '0', STR_PAD_LEFT) . '/' . Helper::getRomawi(now()->month) . '/' . now()->year;
-            if ($request['action'] == 'draft') {
-                $data['status'] = 4;
-            } else {
-                $data['status'] = 3;
+            $data['doc'] = json_encode($doc);
+        }
+        $original_file = [];
+        if ($request->hasFile('original_file')) {
+            foreach ($request->original_file as $key => $file) {
+                $path_file = ImageHelper::file_multiple_drive($file, 'document');
+                array_push($original_file, $path_file);
             }
-        }
-        if (!empty($request->doc_1)) {
-            $data = ImageHelper::upload_drive($request, 'doc_1', 'document', $data);
-        }
-        // dd($data);
-        if (!empty($request->doc_2)) {
-            $data = ImageHelper::upload_drive($request, 'doc_2', 'document', $data);
-        }
-        if (!empty($request->doc_3)) {
-            $data = ImageHelper::upload_drive($request, 'doc_2', 'document', $data);
-        }
-        if (!empty($request->original_file)) {
-            $data = ImageHelper::upload_drive($request, 'original_file', 'document', $data);
+            $data['original_file'] = json_encode($original_file);
         }
 
         $data['code'] = str_slug($data['number']) . '-' . Helper::str_random(5);
         $data['status_disposition'] = 0;
-        if (Auth::guard('admin')->check()) {
-            $data['from_user'] = Auth::guard('admin')->user()->id;
-            $data['from_position'] = 'admin';
-        }
-        if (Auth::guard('user')->check()) {
-            $data['from_user'] = Auth::guard('user')->user()->id;
-            $data['from_position'] = Auth::guard('user')->user()->position;
-        }
+        // dd($data);
 
-        Message::updateOrCreate(
+        Inbox::updateOrCreate(
             ['id' => $request->id],
             $data
         );
         return response()->json([
-            'message' => 'Pesan berhasil terkirim',
+            'message' => 'Pesan masuk berhasil dibuat',
             'status' => true,
         ], 200);
     }
 
     public function save(Request $request)
     {
-        Message::where('id', $request->pk)->update([$request->name => $request->value]);
+        Inbox::where('id', $request->pk)->update([$request->name => $request->value]);
         return response()->json([
-            'message' => 'Pesan berhasil terkirim',
+            'message' => 'Inbox berhasil terkirim',
+            'status' => true,
+        ], 200);
+    }
+
+    public function update(Request $request)
+    {
+        $data = $request->toArray();
+        $inbox = Inbox::find($request['id']);
+        $doc = json_decode($inbox['doc']);
+        if ($request->hasFile('doc')) {
+            foreach ($request->doc as $key => $document) {
+                $path_doc = ImageHelper::file_multiple_drive($document, 'document');
+                array_push($doc, $path_doc);
+            }
+            $data['doc'] = json_encode($doc);
+        }
+        $original_file = json_decode($inbox['original_file']);
+        if ($request->hasFile('original_file')) {
+            foreach ($request->original_file as $key => $file) {
+                $path_file = ImageHelper::file_multiple_drive($file, 'document');
+                array_push($original_file, $path_file);
+            }
+            $data['original_file'] = json_encode($original_file);
+        }
+
+        $inbox->update($data);
+
+        // Inbox::updateOrCreate(
+        //     ['id' => $request->id],
+        //     $data
+        // );
+        return response()->json([
+            'message' => 'Pesan masuk berhasil dibuat',
             'status' => true,
         ], 200);
     }
@@ -153,5 +154,25 @@ class InboxController extends Controller
             'message' => 'Inbox berhasil dihapus',
             'status' => true,
         ], 200);
+    }
+
+    public function download($file)
+    {
+        $file = decrypt($file);
+        return ImageHelper::download_drive($file);
+    }
+
+    public function delete_file(Request $request)
+    {
+        $data = [];
+        $inbox = Inbox::find(decrypt($request['key']));
+        $coloumn = json_decode($inbox[$request['coloumn']], true);
+        if (($key = array_search(decrypt($request['name']), $coloumn)) !== false) {
+            unset($coloumn[$key]);
+            ImageHelper::delete_drive(decrypt($request['name']));
+        }
+        $data[$request['coloumn']] = json_encode($coloumn);
+        $inbox->update($data);
+        return redirect()->back();
     }
 }
